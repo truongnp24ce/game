@@ -24,7 +24,7 @@
     "RightMoney": 0,
     "RightStatus": -5,
     "NextLeft": 3,
-    "NextRight": 8,
+    "NextRight": 7,
     "id": 2
   },
   "3": {
@@ -84,20 +84,6 @@
     "id": 6
   },
   "7": {
-    "PromptText": "You spend the day on errands. Nothing eventful happens.",
-    "LeftOption": "Continue.",
-    "LeftEnergy": 0,
-    "LeftMoney": 0,
-    "LeftStatus": 0,
-    "RightOption": "Continue.",
-    "RightEnergy": 0,
-    "RightMoney": 0,
-    "RightStatus": 0,
-    "NextLeft": 0,
-    "NextRight": 0,
-    "id": 7
-  },
-  "8": {
     "PromptText": "You spend the day at home reading. It's restful, but you can't help feeling a small pang as you watch your neighbors hurry past your window carrying ribbons, lanterns and baskets of flowers.",
     "LeftOption": "Continue to the next day.",
     "LeftEnergy": 5,
@@ -109,6 +95,6 @@
     "RightStatus": -5,
     "NextLeft": 0,
     "NextRight": 0,
-    "id": 8
+    "id": 7
   }
 }
