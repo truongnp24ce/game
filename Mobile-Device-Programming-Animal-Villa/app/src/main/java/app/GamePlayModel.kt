@@ -93,6 +93,13 @@ class GamePlayModel: AppCompatActivity() {
                 checkDay(array[12].toBoolean(), leftButton, rightButton, nextDayButton)
 
             }
+        } else {
+            // Fallback so the screen is never visually empty if the prompt
+            // data could not be loaded for any reason.
+            textView.text = getString(R.string.gameplay_load_error)
+            leftButton.visibility = View.GONE
+            rightButton.visibility = View.GONE
+            nextDayButton.visibility = View.GONE
         }
 
     }
