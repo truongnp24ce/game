@@ -12,4 +12,10 @@
     <string name="enter_email">Enter email</string>
     <string name="repeat_password">Repeat password</string>
     <string name="nextday">nextDay</string>
+    <string name="login_title">Welcome back</string>
+    <string name="login_subtitle">Sign in to continue your adventure in Animal Villa.</string>
+    <string name="register_title">Create your account</string>
+    <string name="register_subtitle">Join Animal Villa and start your story.</string>
+    <string name="error_empty_fields">Please fill in all the fields</string>
+    <string name="error_password_mismatch">Passwords do not match</string>
 </resources>
