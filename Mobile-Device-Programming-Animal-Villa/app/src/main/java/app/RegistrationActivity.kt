@@ -46,7 +46,10 @@ class RegistrationActivity : AppCompatActivity() {
                         val player = Player(status = 50, money = 50, energy = 50, uid = uid)
                         viewModel.save(player)
                     }
-                    startActivity(Intent(this, GamePlayModel::class.java))
+                    startActivity(Intent(this, GamePlayModel::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    })
+                    finish()
                 } else {
                     Toast.makeText(this, "An error occurred", Toast.LENGTH_SHORT).show()
                 }

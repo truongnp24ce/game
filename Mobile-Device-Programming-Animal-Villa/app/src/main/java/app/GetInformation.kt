@@ -41,7 +41,7 @@ class GetInformation(private val context: Context) {
 
             // Parse JSON
             val prompts = mutableListOf<Prompt>()
-            val jRecord = JSONObject(data).get("record") as JSONObject
+            val jRecord = JSONObject(data)
             var index = 1
 
             while (true) {
