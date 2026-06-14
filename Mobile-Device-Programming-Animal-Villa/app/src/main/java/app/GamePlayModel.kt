@@ -13,7 +13,7 @@ import app.AnimalVilla.R
 class GamePlayModel: AppCompatActivity() {
 
     //Variables
-    private val getInformation = GetInformation()
+    private val getInformation by lazy { GetInformation(this@GamePlayModel) }
     private var array:ArrayList<String> = arrayListOf() //Holds a list of array items for variables above. Will be used to add values to variables above
 
     override fun onCreate(savedInstanceState: Bundle?) {
