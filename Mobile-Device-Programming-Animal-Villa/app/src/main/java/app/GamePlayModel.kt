@@ -33,60 +33,66 @@ class GamePlayModel: AppCompatActivity() {
         val rightButton: Button = findViewById(R.id.rightButton)
         val leftButton: Button = findViewById(R.id.leftButton)
 
+        // Clear array before populating
+        array.clear()
+        
         //Gets the first prompt
         getInformation.organizeCurrentPrompt("0", array)
 
-        //Checks what day the game is on
-        checkDay(array[12].toBoolean(), leftButton, rightButton, nextDayButton)
-
-        //Displays first prompt
-        textView.text = array[0]
-
-        //Label the buttons
-        val leftButtonTextView = findViewById<Button>(R.id.leftButton)
-        val rightButtonTextView = findViewById<Button>(R.id.rightButton)
-        val nextDayButtonTextView = findViewById<Button>(R.id.nextDayButton)
-        leftButtonTextView.text = array[4]
-        rightButtonTextView.text = array[5]
-        nextDayButtonTextView.text = "Go to next Day"
-
-        //Do this when left button is pressed
-        leftButton.setOnClickListener {
-            //left button does things here
-            changeButtonsAndText(
-                array,
-                textView,
-                leftButtonTextView,
-                rightButtonTextView,
-                nextDayButtonTextView
-            )
-        }
-
-        //Do this when right button is pressed
-        rightButton.setOnClickListener {
-            //right button does things here
-            changeButtonsAndText(
-                array,
-                textView,
-                leftButtonTextView,
-                rightButtonTextView,
-                nextDayButtonTextView
-            )
-            checkDay(array[12].toBoolean(), leftButton, rightButton, nextDayButton)
-        }
-
-        //Do this when next day button is pressed
-        nextDayButton.setOnClickListener{
-            //next day button does things here
-            changeButtonsAndText(
-                array,
-                textView,
-                leftButtonTextView,
-                rightButtonTextView,
-                nextDayButtonTextView
-            )
+        // Check if array has enough elements before accessing
+        if (array.size >= 13) {
+            //Checks what day the game is on
             checkDay(array[12].toBoolean(), leftButton, rightButton, nextDayButton)
 
+            //Displays first prompt
+            textView.text = array[0]
+
+            //Label the buttons
+            val leftButtonTextView = findViewById<Button>(R.id.leftButton)
+            val rightButtonTextView = findViewById<Button>(R.id.rightButton)
+            val nextDayButtonTextView = findViewById<Button>(R.id.nextDayButton)
+            leftButtonTextView.text = array[4]
+            rightButtonTextView.text = array[5]
+            nextDayButtonTextView.text = "Go to next Day"
+
+            //Do this when left button is pressed
+            leftButton.setOnClickListener {
+                //left button does things here
+                changeButtonsAndText(
+                    array,
+                    textView,
+                    leftButtonTextView,
+                    rightButtonTextView,
+                    nextDayButtonTextView
+                )
+            }
+
+            //Do this when right button is pressed
+            rightButton.setOnClickListener {
+                //right button does things here
+                changeButtonsAndText(
+                    array,
+                    textView,
+                    leftButtonTextView,
+                    rightButtonTextView,
+                    nextDayButtonTextView
+                )
+                checkDay(array[12].toBoolean(), leftButton, rightButton, nextDayButton)
+            }
+
+            //Do this when next day button is pressed
+            nextDayButton.setOnClickListener{
+                //next day button does things here
+                changeButtonsAndText(
+                    array,
+                    textView,
+                    leftButtonTextView,
+                    rightButtonTextView,
+                    nextDayButtonTextView
+                )
+                checkDay(array[12].toBoolean(), leftButton, rightButton, nextDayButton)
+
+            }
         }
 
     }
@@ -131,10 +137,12 @@ class GamePlayModel: AppCompatActivity() {
         rightButtonTextView: Button,
         nextDayButtonTextView: Button
     ) {
-        getInformation.organizeCurrentPrompt(array[2], array)
-        textView.text = array[0]
-        leftButtonTextView.text = array[4]
-        rightButtonTextView.text = array[5]
-        nextDayButtonTextView.text = "Go To Next Day..."
+        if (array.size >= 6) {
+            getInformation.organizeCurrentPrompt(array[2], array)
+            textView.text = array[0]
+            leftButtonTextView.text = array[4]
+            rightButtonTextView.text = array[5]
+            nextDayButtonTextView.text = "Go To Next Day..."
+        }
     }
 }
