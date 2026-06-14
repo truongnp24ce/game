@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "56559707558",
+    "project_id": "animal-vanila",
+    "storage_bucket": "animal-vanila.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:56559707558:android:15826720f0459ca0541b67",
+        "android_client_info": {
+          "package_name": "app.AnimalVilla"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuxcZ1-HNAHJEX1b-1NwzV8cAP3qgVILI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
