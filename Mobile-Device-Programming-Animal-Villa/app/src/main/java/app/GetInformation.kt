@@ -68,8 +68,10 @@ class GetInformation(private val context: Context) {
                 val rightStatus = jPrompt.get("RightStatus").toString().toInt()
                 val nextRight = jPrompt.get("NextRight").toString().toInt()
 
-                // Next Day Information
-                val nextDay = jPrompt.get("NextDay").toString().toBoolean()
+                // Next Day Information (only tutorial_prompts.json defines this
+                // field; for the per-day files we default to false so JSON
+                // parsing does not throw and leave the screen blank).
+                val nextDay = jPrompt.optBoolean("NextDay", false)
 
                 prompts.add(
                     Prompt(
@@ -102,24 +104,33 @@ class GetInformation(private val context: Context) {
         // Assign values to prompts
         val queue = getAllPrompts()
 
-        if (queue == null || fetch.toInt() >= queue.size) {
+        // Prompt ids in the JSON files are 1-based, but `queue` is 0-based,
+        // so convert the requested id into the matching list index.
+        val idx = fetch.toIntOrNull()?.minus(1) ?: return array
+
+        if (queue == null || idx < 0 || idx >= queue.size) {
             // Trả về array rỗng nếu không load được prompts
             return array
         }
 
-        array.add(0, queue[fetch.toInt()].PromptText)
-        array.add(1, queue[fetch.toInt()].NextLeft.toString())
-        array.add(2, queue[fetch.toInt()].NextRight.toString())
-        array.add(3, queue[fetch.toInt()].id.toString())
-        array.add(4, queue[fetch.toInt()].LeftOption)
-        array.add(5, queue[fetch.toInt()].RightOption)
-        array.add(6, queue[fetch.toInt()].LeftEnergy.toString())
-        array.add(7, queue[fetch.toInt()].RightEnergy.toString())
-        array.add(8, queue[fetch.toInt()].LeftMoney.toString())
-        array.add(9, queue[fetch.toInt()].RightMoney.toString())
-        array.add(10, queue[fetch.toInt()].LeftStatus.toString())
-        array.add(11, queue[fetch.toInt()].RightStatus.toString())
-        array.add(12, queue[fetch.toInt()].NextDay.toString())
+        // Replace previous prompt data instead of stacking it on top, otherwise
+        // `array` grows on every choice and the indices used by the caller
+        // (e.g. array[12] for NextDay) end up pointing at stale values.
+        array.clear()
+
+        array.add(0, queue[idx].PromptText)
+        array.add(1, queue[idx].NextLeft.toString())
+        array.add(2, queue[idx].NextRight.toString())
+        array.add(3, queue[idx].id.toString())
+        array.add(4, queue[idx].LeftOption)
+        array.add(5, queue[idx].RightOption)
+        array.add(6, queue[idx].LeftEnergy.toString())
+        array.add(7, queue[idx].RightEnergy.toString())
+        array.add(8, queue[idx].LeftMoney.toString())
+        array.add(9, queue[idx].RightMoney.toString())
+        array.add(10, queue[idx].LeftStatus.toString())
+        array.add(11, queue[idx].RightStatus.toString())
+        array.add(12, queue[idx].NextDay.toString())
 
         // Return array for use
         return array
