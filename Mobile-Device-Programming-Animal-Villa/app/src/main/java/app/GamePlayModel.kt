@@ -40,8 +40,8 @@ class GamePlayModel: AppCompatActivity() {
         // Clear array before populating
         array.clear()
         
-        //Gets the first prompt
-        getInformation.organizeCurrentPrompt("0", array)
+        //Gets the first prompt (prompt ids are 1-based)
+        getInformation.organizeCurrentPrompt("1", array)
 
         // Check if array has enough elements before accessing
         if (array.size >= 13) {
@@ -61,20 +61,23 @@ class GamePlayModel: AppCompatActivity() {
 
             //Do this when left button is pressed
             leftButton.setOnClickListener {
-                //left button does things here
+                //left button follows the NextLeft id (array[1])
                 changeButtonsAndText(
+                    array[1],
                     array,
                     textView,
                     leftButtonTextView,
                     rightButtonTextView,
                     nextDayButtonTextView
                 )
+                checkDay(array[12].toBoolean(), leftButton, rightButton, nextDayButton)
             }
 
             //Do this when right button is pressed
             rightButton.setOnClickListener {
-                //right button does things here
+                //right button follows the NextRight id (array[2])
                 changeButtonsAndText(
+                    array[2],
                     array,
                     textView,
                     leftButtonTextView,
@@ -86,8 +89,9 @@ class GamePlayModel: AppCompatActivity() {
 
             //Do this when next day button is pressed
             nextDayButton.setOnClickListener{
-                //next day button does things here
+                //next day button follows the NextRight id (array[2]) like before
                 changeButtonsAndText(
+                    array[2],
                     array,
                     textView,
                     leftButtonTextView,
@@ -142,14 +146,15 @@ class GamePlayModel: AppCompatActivity() {
     }
 
     private fun changeButtonsAndText(
+        nextPromptId: String,
         array: ArrayList<String>,
         textView: TextView,
         leftButtonTextView: Button,
         rightButtonTextView: Button,
         nextDayButtonTextView: Button
     ) {
+        getInformation.organizeCurrentPrompt(nextPromptId, array)
         if (array.size >= 6) {
-            getInformation.organizeCurrentPrompt(array[2], array)
             textView.text = array[0]
             leftButtonTextView.text = array[4]
             rightButtonTextView.text = array[5]
