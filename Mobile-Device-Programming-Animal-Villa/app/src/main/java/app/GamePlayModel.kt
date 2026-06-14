@@ -17,14 +17,18 @@ class GamePlayModel: AppCompatActivity() {
     private var array:ArrayList<String> = arrayListOf() //Holds a list of array items for variables above. Will be used to add values to variables above
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //Hides Action and Status bars
+        //Lets the game run. super.onCreate() and setContentView() MUST run
+        //before we touch any views or the window insets controller, otherwise
+        //findViewById() returns null and the rest of onCreate() aborts,
+        //leaving the prompt box and choice buttons blank.
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.game_play)
+
+        //Hides Action and Status bars (safe to call now that the layout
+        //is inflated and the activity is fully initialised).
         supportActionBar?.hide()
         hideSystemBars()
 
-        //Lets the game run
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.game_play)
-        
         // Initialize GetInformation with context
         getInformation = GetInformation(this)
 
