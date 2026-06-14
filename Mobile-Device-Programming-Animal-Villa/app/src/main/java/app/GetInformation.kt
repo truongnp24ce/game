@@ -73,6 +73,11 @@ class GetInformation(private val context: Context) {
                 // parsing does not throw and leave the screen blank).
                 val nextDay = jPrompt.optBoolean("NextDay", false)
 
+                // Optional illustration name (matches a drawable in res/drawable
+                // without the file extension, e.g. "yescat"). When absent, the
+                // game falls back to a deterministic default chosen in the UI.
+                val image = jPrompt.optString("Image", "")
+
                 prompts.add(
                     Prompt(
                         promptText,
@@ -87,7 +92,8 @@ class GetInformation(private val context: Context) {
                         nextLeft,
                         nextRight,
                         id,
-                        nextDay
+                        nextDay,
+                        image
                     )
                 )
                 index++
@@ -131,6 +137,7 @@ class GetInformation(private val context: Context) {
         array.add(10, queue[idx].LeftStatus.toString())
         array.add(11, queue[idx].RightStatus.toString())
         array.add(12, queue[idx].NextDay.toString())
+        array.add(13, queue[idx].Image)
 
         // Return array for use
         return array

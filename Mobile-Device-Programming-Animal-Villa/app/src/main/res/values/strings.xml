@@ -24,4 +24,5 @@
     <string name="no_account">New to Animal Villa?</string>
     <string name="day_label">Your story continues…</string>
     <string name="gameplay_load_error">Oops, we couldn\'t load your story. Please restart the game and try again.</string>
+    <string name="prompt_image_desc">Scene illustration</string>
 </resources>

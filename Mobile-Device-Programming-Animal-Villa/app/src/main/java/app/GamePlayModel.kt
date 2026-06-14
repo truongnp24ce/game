@@ -3,6 +3,7 @@ package app
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -33,6 +34,7 @@ class GamePlayModel: AppCompatActivity() {
         getInformation = GetInformation(this)
 
         val textView: TextView = findViewById(R.id.promptBox)
+        val promptImage: ImageView = findViewById(R.id.promptImage)
         val nextDayButton: Button = findViewById(R.id.nextDayButton)
         val rightButton: Button = findViewById(R.id.rightButton)
         val leftButton: Button = findViewById(R.id.leftButton)
@@ -50,6 +52,7 @@ class GamePlayModel: AppCompatActivity() {
 
             //Displays first prompt
             textView.text = array[0]
+            updatePromptImage(promptImage, array)
 
             //Label the buttons
             val leftButtonTextView = findViewById<Button>(R.id.leftButton)
@@ -66,6 +69,7 @@ class GamePlayModel: AppCompatActivity() {
                     array[1],
                     array,
                     textView,
+                    promptImage,
                     leftButtonTextView,
                     rightButtonTextView,
                     nextDayButtonTextView
@@ -80,6 +84,7 @@ class GamePlayModel: AppCompatActivity() {
                     array[2],
                     array,
                     textView,
+                    promptImage,
                     leftButtonTextView,
                     rightButtonTextView,
                     nextDayButtonTextView
@@ -94,6 +99,7 @@ class GamePlayModel: AppCompatActivity() {
                     array[2],
                     array,
                     textView,
+                    promptImage,
                     leftButtonTextView,
                     rightButtonTextView,
                     nextDayButtonTextView
@@ -105,6 +111,7 @@ class GamePlayModel: AppCompatActivity() {
             // Fallback so the screen is never visually empty if the prompt
             // data could not be loaded for any reason.
             textView.text = getString(R.string.gameplay_load_error)
+            promptImage.visibility = View.GONE
             leftButton.visibility = View.GONE
             rightButton.visibility = View.GONE
             nextDayButton.visibility = View.GONE
@@ -149,6 +156,7 @@ class GamePlayModel: AppCompatActivity() {
         nextPromptId: String,
         array: ArrayList<String>,
         textView: TextView,
+        promptImage: ImageView,
         leftButtonTextView: Button,
         rightButtonTextView: Button,
         nextDayButtonTextView: Button
@@ -159,6 +167,40 @@ class GamePlayModel: AppCompatActivity() {
             leftButtonTextView.text = array[4]
             rightButtonTextView.text = array[5]
             nextDayButtonTextView.text = "Go To Next Day..."
+            updatePromptImage(promptImage, array)
+        }
+    }
+
+    // Pool of bundled character drawables used as a deterministic fallback
+    // when a prompt does not specify its own "Image" name.
+    private val fallbackImages = listOf(
+        "kidrabbit", "yescat", "nocat",
+        "yesraccoon", "noraccoon", "sonraccoon", "nodadraccoon",
+        "yesmomrabbit", "nomomrabbit", "yesdadrabbit",
+        "yesmomcow", "sadmomcow"
+    )
+
+    // Resolves the illustration for the current prompt. Prefers the JSON
+    // "Image" value (array[13]); otherwise picks a deterministic image from
+    // the bundled drawables based on the prompt id so each prompt has a
+    // consistent visual instead of an empty box.
+    private fun updatePromptImage(promptImage: ImageView, array: ArrayList<String>) {
+        val explicitName = if (array.size > 13) array[13] else ""
+        val promptId = array.getOrNull(3)?.toIntOrNull() ?: 0
+
+        val resName = if (explicitName.isNotBlank()) {
+            explicitName
+        } else {
+            fallbackImages[promptId.mod(fallbackImages.size)]
+        }
+
+        val resId = resources.getIdentifier(resName, "drawable", packageName)
+        if (resId != 0) {
+            promptImage.setImageResource(resId)
+            promptImage.visibility = View.VISIBLE
+        } else {
+            promptImage.setImageDrawable(null)
+            promptImage.visibility = View.GONE
         }
     }
 }
