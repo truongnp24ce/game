@@ -13,7 +13,7 @@ import app.AnimalVilla.R
 class GamePlayModel: AppCompatActivity() {
 
     //Variables
-    private val getInformation = GetInformation()
+    private lateinit var getInformation: GetInformation
     private var array:ArrayList<String> = arrayListOf() //Holds a list of array items for variables above. Will be used to add values to variables above
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +24,9 @@ class GamePlayModel: AppCompatActivity() {
         //Lets the game run
         super.onCreate(savedInstanceState)
         setContentView(R.layout.game_play)
+        
+        // Initialize GetInformation with context
+        getInformation = GetInformation(this)
 
         val textView: TextView = findViewById(R.id.promptBox)
         val nextDayButton: Button = findViewById(R.id.nextDayButton)
