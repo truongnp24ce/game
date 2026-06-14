@@ -161,7 +161,20 @@ class GamePlayModel: AppCompatActivity() {
         rightButtonTextView: Button,
         nextDayButtonTextView: Button
     ) {
-        getInformation.organizeCurrentPrompt(nextPromptId, array)
+        // The per-day JSON files use a NextLeft / NextRight value of 0 as an
+        // "end of day" sentinel (e.g. the wrap-up prompts on Monday whose
+        // buttons both read "Continue to the next day."). Without special
+        // handling those clicks resolve to prompt id -1 in organizeCurrentPrompt
+        // and the screen never updates, leaving the buttons visibly clickable
+        // but unresponsive. Detect that sentinel here and advance to the first
+        // prompt of the following day instead.
+        val resolvedId = if (nextPromptId == "0") {
+            getInformation.nextDayCounter()
+            "1"
+        } else {
+            nextPromptId
+        }
+        getInformation.organizeCurrentPrompt(resolvedId, array)
         if (array.size >= 6) {
             textView.text = array[0]
             leftButtonTextView.text = array[4]

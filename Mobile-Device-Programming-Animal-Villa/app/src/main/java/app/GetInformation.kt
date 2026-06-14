@@ -24,7 +24,13 @@ class GetInformation(private val context: Context) {
 
     // Counts next day
     fun nextDayCounter() {
-        this.i = i + 1
+        // Clamp to the last available day so callers that advance past
+        // Sunday (e.g. an end-of-day click on the final day) don't trigger
+        // an IndexOutOfBoundsException the next time getAllPrompts reads
+        // dayResources[i].
+        if (i < dayResources.size - 1) {
+            this.i = i + 1
+        }
     }
 
     // Collects all prompts for use (ĐỌC TỪ LOCAL FILE)
