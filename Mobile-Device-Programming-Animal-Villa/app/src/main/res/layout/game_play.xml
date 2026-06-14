@@ -26,26 +26,57 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Prompt card -->
-    <TextView
-        android:id="@+id/promptBox"
+    <!-- Prompt card (background only; holds the image + text) -->
+    <View
+        android:id="@+id/promptCard"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_prompt_box"
-        android:elevation="3dp"
-        android:gravity="center"
-        android:lineSpacingExtra="4dp"
-        android:padding="24dp"
-        android:text="@string/stuff"
-        android:textColor="@color/gray_800"
-        android:textSize="18sp"
+        android:elevation="2dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonsRow"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_min="180dp"
+        app:layout_constraintHeight_min="320dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dayLabel"
         app:layout_constraintVertical_bias="0.0" />
+
+    <!-- Character / scene image, sits at the top of the card -->
+    <ImageView
+        android:id="@+id/promptImage"
+        android:layout_width="0dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:adjustViewBounds="true"
+        android:contentDescription="@string/prompt_image_desc"
+        android:elevation="3dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="@+id/promptCard"
+        app:layout_constraintStart_toStartOf="@+id/promptCard"
+        app:layout_constraintTop_toTopOf="@+id/promptCard" />
+
+    <!-- Prompt text, below the image inside the same card -->
+    <TextView
+        android:id="@+id/promptBox"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:elevation="3dp"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp"
+        android:padding="16dp"
+        android:text="@string/stuff"
+        android:textColor="@color/gray_800"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@+id/promptCard"
+        app:layout_constraintEnd_toEndOf="@+id/promptCard"
+        app:layout_constraintStart_toStartOf="@+id/promptCard"
+        app:layout_constraintTop_toBottomOf="@+id/promptImage" />
 
     <!-- Two-choice row: left + right buttons share the width -->
     <LinearLayout
