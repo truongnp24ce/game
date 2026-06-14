@@ -191,7 +191,7 @@ class GamePlayModel: AppCompatActivity() {
         val resName = if (explicitName.isNotBlank()) {
             explicitName
         } else {
-            fallbackImages[Math.floorMod(promptId, fallbackImages.size)]
+            fallbackImages[promptId.mod(fallbackImages.size)]
         }
 
         val resId = resources.getIdentifier(resName, "drawable", packageName)
