@@ -5,7 +5,7 @@ import app.DTO.Prompt
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import app.R
+import app.AnimalVilla.R
 class GetInformation(private val context: Context) {
 
     private var i: Int = 0
