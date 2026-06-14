@@ -22,8 +22,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun loginUser(view: View) {
-        val email: String = findViewById<EditText>(R.id.login_email_edit_text).text.toString()
+        val email: String = findViewById<EditText>(R.id.login_email_edit_text).text.toString().trim()
         val password: String = findViewById<EditText>(R.id.login_password_edit_text).text.toString()
+
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, getString(R.string.error_empty_fields), Toast.LENGTH_SHORT).show()
+            return
+        }
 
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
