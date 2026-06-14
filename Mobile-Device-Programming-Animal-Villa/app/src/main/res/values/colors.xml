@@ -28,6 +28,27 @@
     <!-- Gradients -->
     <color name="gradient_start">#FF6200EE</color>
     <color name="gradient_end">#FF03DAC5</color>
+
+    <!-- Brand / UI accents used by redesigned layouts -->
+    <color name="brand_primary">#FF6A4DFF</color>
+    <color name="brand_primary_dark">#FF4B33CC</color>
+    <color name="brand_secondary">#FFFF8A65</color>
+    <color name="brand_accent">#FFFFC857</color>
+    <color name="brand_bg_top">#FFB39DDB</color>
+    <color name="brand_bg_mid">#FFFFCDD2</color>
+    <color name="brand_bg_bottom">#FFFFE0B2</color>
+    <color name="card_bg">#FFFFFFFF</color>
+    <color name="card_bg_translucent">#F2FFFFFF</color>
+    <color name="input_bg">#FFF3F0FF</color>
+    <color name="input_stroke">#FFDDD6FE</color>
+    <color name="prompt_bg">#FFFFF8E1</color>
+    <color name="prompt_stroke">#FFFFD180</color>
+    <color name="left_button">#FF42A5F5</color>
+    <color name="left_button_dark">#FF1E88E5</color>
+    <color name="right_button">#FFEF5350</color>
+    <color name="right_button_dark">#FFE53935</color>
+    <color name="next_day_button">#FF66BB6A</color>
+    <color name="next_day_button_dark">#FF43A047</color>
     
     <!-- Text Colors -->
     <color name="text_primary">@color/black</color>

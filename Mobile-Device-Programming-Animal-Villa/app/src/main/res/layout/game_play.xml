@@ -5,51 +5,112 @@
     android:id="@+id/GamePlay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:background="@drawable/bg_gameplay_gradient"
+    android:paddingStart="20dp"
+    android:paddingTop="32dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="28dp"
     tools:visibility="visible">
 
+    <!-- Header label -->
+    <TextView
+        android:id="@+id/dayLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/day_label"
+        android:textColor="@color/brand_primary_dark"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.05"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Prompt card -->
     <TextView
         android:id="@+id/promptBox"
-        android:layout_width="556dp"
-        android:layout_height="101dp"
-        android:layout_marginStart="60dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_prompt_box"
+        android:elevation="3dp"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp"
+        android:padding="24dp"
         android:text="@string/stuff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.193" />
-
-    <Button
-        android:id="@+id/leftButton"
-        android:layout_width="225dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="112dp"
-        android:text="@string/leftOption"
-        app:layout_constraintEnd_toStartOf="@+id/rightButton"
-        app:layout_constraintHorizontal_bias="0.263"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/promptBox"
-        tools:ignore="DuplicateSpeakableTextCheck,SpeakableTextPresentCheck" />
-
-    <Button
-        android:id="@+id/rightButton"
-        android:layout_width="223dp"
-        android:layout_height="65dp"
-        android:layout_marginTop="112dp"
-        android:layout_marginEnd="64dp"
-        android:text="@string/rightOption"
+        android:textColor="@color/gray_800"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonsRow"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/promptBox"
-        tools:ignore="SpeakableTextPresentCheck" />
+        app:layout_constraintHeight_min="180dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dayLabel"
+        app:layout_constraintVertical_bias="0.0" />
 
+    <!-- Two-choice row: left + right buttons share the width -->
+    <LinearLayout
+        android:id="@+id/buttonsRow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/leftButton"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_left_option"
+            android:elevation="2dp"
+            android:padding="8dp"
+            android:stateListAnimator="@null"
+            android:text="@string/leftOption"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:ignore="DuplicateSpeakableTextCheck,SpeakableTextPresentCheck" />
+
+        <Space
+            android:layout_width="12dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/rightButton"
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_right_option"
+            android:elevation="2dp"
+            android:padding="8dp"
+            android:stateListAnimator="@null"
+            android:text="@string/rightOption"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </LinearLayout>
+
+    <!-- Next day button overlays the row (only one is visible at a time) -->
     <Button
         android:id="@+id/nextDayButton"
-        android:layout_width="184dp"
-        android:layout_height="65dp"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:background="@drawable/btn_next_day"
+        android:elevation="2dp"
+        android:stateListAnimator="@null"
         android:text="@string/nextday"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/rightButton"
-        app:layout_constraintStart_toEndOf="@+id/leftButton"
-        app:layout_constraintTop_toBottomOf="@+id/promptBox"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonsRow"
+        app:layout_constraintEnd_toEndOf="@+id/buttonsRow"
+        app:layout_constraintStart_toStartOf="@+id/buttonsRow"
+        app:layout_constraintTop_toTopOf="@+id/buttonsRow"
         tools:visibility="invisible" />
 </androidx.constraintlayout.widget.ConstraintLayout>
