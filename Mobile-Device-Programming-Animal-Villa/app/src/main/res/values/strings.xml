@@ -28,7 +28,13 @@
     <string name="ic_save_desc">Save</string>
     <string name="ic_world_desc">World</string>
     <string name="ic_megaphone_desc">Announcements</string>
+    <string name="ic_exit_desc">Exit to title</string>
     <string name="ic_heart_desc">Energy</string>
     <string name="ic_fire_desc">Status</string>
     <string name="ic_dollar_desc">Money</string>
+    <string name="title_screen_desc">Animal Villa — tap to start</string>
+    <string name="save_choice_prompt">You have a saved game. Continue where you left off, or discard the save and start a new story?</string>
+    <string name="continue_game">Continue</string>
+    <string name="discard_save">Discard save and start new</string>
+    <string name="save_success">Game saved</string>
 </resources>

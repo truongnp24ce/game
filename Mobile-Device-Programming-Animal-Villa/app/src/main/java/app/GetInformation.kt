@@ -52,6 +52,26 @@ class GetInformation(private val context: Context) {
 
     fun isInEnding(): Boolean = endingResource != null
 
+    // Current day index (0 = tutorial, 1 = Monday, …). Exposed so the
+    // save/load layer can snapshot exactly where the player left off.
+    fun currentDayIndex(): Int = i
+
+    // Returns which ending file is active, or null when not in an ending.
+    // Used by GameSave to persist the active ending across app restarts.
+    fun currentEndingType(): EndingType? {
+        val active = endingResource ?: return null
+        return endingResources.entries.firstOrNull { it.value == active }?.key
+    }
+
+    // Restore the gameplay flow to a previously saved state. Mirrors the
+    // mutually-exclusive intro / ending / per-day modes the activity drives
+    // through nextDayCounter()/startEnding()/finishIntro() during play.
+    fun restoreState(dayIndex: Int, inIntro: Boolean, ending: EndingType?) {
+        this.i = dayIndex.coerceIn(0, dayResources.size - 1)
+        this.introResource = if (inIntro) R.raw.intro else null
+        this.endingResource = ending?.let { endingResources[it] }
+    }
+
     // True when the day pointer is on the last entry of dayResources (Sunday).
     // Used by GamePlayModel to know that the next "end of day" sentinel
     // should trigger an ending instead of an out-of-range nextDayCounter().

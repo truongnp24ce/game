@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Title screen shown after a successful login (or after the player taps
+     "Back to Start" / "Exit" from gameplay). Tapping anywhere on the
+     mushroom-villa image starts the game; if a saved game exists the
+     player is first asked whether to continue it or discard it. -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/titleScreenRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#7FD8F0"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/titleScreenImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/title_screen_desc"
+        android:scaleType="fitCenter"
+        android:src="@drawable/title_screen" />
+
+    <!-- Overlay shown only when a saved game exists. The mushroom artwork
+         stays visible underneath so the look stays consistent with the
+         rest of the game. -->
+    <FrameLayout
+        android:id="@+id/saveChoiceOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#B3000000"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/bg_villa_prompt"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="@string/animal_villa"
+                android:textColor="@color/villa_pink_text"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:text="@string/save_choice_prompt"
+                android:textColor="@color/villa_pink_text"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/continueButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/btn_primary"
+                android:stateListAnimator="@null"
+                android:text="@string/continue_game"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/discardSaveButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/btn_secondary"
+                android:stateListAnimator="@null"
+                android:text="@string/discard_save"
+                android:textAllCaps="false"
+                android:textColor="@color/brand_primary_dark"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>
