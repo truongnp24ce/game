@@ -11,10 +11,11 @@
     "RightStatus": 0,
     "NextLeft": 2,
     "NextRight": 2,
-    "id": 1
+    "id": 1,
+    "Image": "kidrabbit"
   },
   "2": {
-    "PromptText": "While you sip your morning tea, you notice a small flyer pinned to your door. It reads: \"Help wanted at the lakeside dock — pay offered. Ask for Captain Otto.\" You also remember that Rosemary mentioned she could use a hand picking herbs in the forest today.",
+    "PromptText": "While you sip your morning tea, you notice a small flyer pinned to your door. It reads: \"Help wanted at the lakeside dock \u2014 pay offered. Ask for Captain Otto.\" You also remember that Rosemary mentioned she could use a hand picking herbs in the forest today.",
     "LeftOption": "Head to the lake and meet Captain Otto.",
     "LeftEnergy": -10,
     "LeftMoney": 0,
@@ -25,7 +26,8 @@
     "RightStatus": 5,
     "NextLeft": 3,
     "NextRight": 6,
-    "id": 2
+    "id": 2,
+    "Image": "kidrabbit"
   },
   "3": {
     "PromptText": "Captain Otto, a sturdy old otter with a weather-worn cap, greets you at the dock. \"Glad you came, neighbor! My usual deckhand is sick. I need help loading crates onto the ferry before noon. It's hard work, but I pay fair.\"",
@@ -39,10 +41,11 @@
     "RightStatus": -10,
     "NextLeft": 4,
     "NextRight": 5,
-    "id": 3
+    "id": 3,
+    "Image": "yescat"
   },
   "4": {
-    "PromptText": "After a few sweaty hours, every crate is safely on board. Captain Otto pats you on the back. \"That was a fine job! Word travels fast in this village — folks will remember a hard worker like you.\" He hands you the coins and waves goodbye.",
+    "PromptText": "After a few sweaty hours, every crate is safely on board. Captain Otto pats you on the back. \"That was a fine job! Word travels fast in this village \u2014 folks will remember a hard worker like you.\" He hands you the coins and waves goodbye.",
     "LeftOption": "Head home to rest.",
     "LeftEnergy": 5,
     "LeftMoney": 0,
@@ -53,7 +56,8 @@
     "RightStatus": 5,
     "NextLeft": 0,
     "NextRight": 0,
-    "id": 4
+    "id": 4,
+    "Image": "yescat"
   },
   "5": {
     "PromptText": "Captain Otto sighs, disappointed. \"Ah well, can't blame ya. Maybe another time.\" You wander back into the village feeling a bit guilty for turning down a neighbor in need. The rest of the day drags on quietly.",
@@ -67,10 +71,11 @@
     "RightStatus": 0,
     "NextLeft": 0,
     "NextRight": 0,
-    "id": 5
+    "id": 5,
+    "Image": "nocat"
   },
   "6": {
-    "PromptText": "Rosemary meets you at the edge of the forest with two woven baskets. \"Thank you for coming! These herbs only bloom for a few days each season. We have to be careful — some patches grow near the muddy creek.\" She points down two trails.",
+    "PromptText": "Rosemary meets you at the edge of the forest with two woven baskets. \"Thank you for coming! These herbs only bloom for a few days each season. We have to be careful \u2014 some patches grow near the muddy creek.\" She points down two trails.",
     "LeftOption": "Take the safe path along the ridge.",
     "LeftEnergy": -10,
     "LeftMoney": 5,
@@ -81,7 +86,8 @@
     "RightStatus": 10,
     "NextLeft": 7,
     "NextRight": 7,
-    "id": 6
+    "id": 6,
+    "Image": "yesmomrabbit"
   },
   "7": {
     "PromptText": "By late afternoon, your basket is full and Rosemary is delighted. \"You have a good eye for this. Please, take a share of the herbs for yourself.\" You return to the village just as the sun begins to set, feeling tired but proud.",
@@ -95,6 +101,7 @@
     "RightStatus": 5,
     "NextLeft": 0,
     "NextRight": 0,
-    "id": 7
+    "id": 7,
+    "Image": "yesmomrabbit"
   }
 }

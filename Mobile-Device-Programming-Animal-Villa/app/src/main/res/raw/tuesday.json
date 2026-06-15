@@ -11,7 +11,8 @@
     "RightStatus": 0,
     "NextLeft": 2,
     "NextRight": 2,
-    "id": 1
+    "id": 1,
+    "Image": "kidrabbit"
   },
   "2": {
     "PromptText": "Curled up in your comfy bed, sunlight trickles in. The soft warmth touches your face, waking you up for the day.",
@@ -25,7 +26,8 @@
     "RightStatus": 0,
     "NextLeft": 3,
     "NextRight": 3,
-    "id": 2
+    "id": 2,
+    "Image": "kidrabbit"
   },
   "3": {
     "PromptText": "Getting up and giving a big stretch, you think about how you want to spend your day. You remember your neighbors and realize that there were two households you have yet to meet. It wouldn't be any harm to check in, would it?",
@@ -39,6 +41,52 @@
     "RightStatus": 0,
     "NextLeft": 4,
     "NextRight": 5,
-    "id": 3
+    "id": 3,
+    "Image": "kidrabbit"
+  },
+  "4": {
+    "PromptText": "You knock on the bright red door of the Fox family's cottage. Vivian, a sharp-eyed fox in a flour-dusted apron, answers with a warm smile. \"Oh, the new neighbor! Come in, come in. We were just about to start lunch.\" The smell of fresh bread and stew makes your stomach growl.",
+    "LeftOption": "Stay for lunch with the Foxes.",
+    "LeftEnergy": 5,
+    "LeftMoney": 0,
+    "LeftStatus": 10,
+    "RightOption": "Thank her and continue on.",
+    "RightEnergy": 0,
+    "RightMoney": 0,
+    "RightStatus": -5,
+    "NextLeft": 6,
+    "NextRight": 6,
+    "id": 4,
+    "Image": "yescat"
+  },
+  "5": {
+    "PromptText": "The Crow family's tall thin house leans slightly to one side. Old Mr. Crow opens the door, peering at you over a pair of round spectacles. \"A new face! How delightful. Would you mind helping me carry a few crates up to the attic? My old wings aren't what they used to be.\"",
+    "LeftOption": "Of course, Mr. Crow. I'd be happy to help.",
+    "LeftEnergy": -10,
+    "LeftMoney": 5,
+    "LeftStatus": 10,
+    "RightOption": "Sorry, I really must be heading back.",
+    "RightEnergy": 0,
+    "RightMoney": 0,
+    "RightStatus": -5,
+    "NextLeft": 6,
+    "NextRight": 6,
+    "id": 5,
+    "Image": "nocat"
+  },
+  "6": {
+    "PromptText": "By the time you make it home, the sun is dipping behind the rooftops. Meeting more of your neighbors has left you feeling like Animal Villa is slowly starting to feel like home. You settle in for a quiet evening.",
+    "LeftOption": "Continue to the next day.",
+    "LeftEnergy": 10,
+    "LeftMoney": 0,
+    "LeftStatus": 0,
+    "RightOption": "Continue to the next day.",
+    "RightEnergy": 10,
+    "RightMoney": 0,
+    "RightStatus": 0,
+    "NextLeft": 0,
+    "NextRight": 0,
+    "id": 6,
+    "Image": "kidrabbit"
   }
 }

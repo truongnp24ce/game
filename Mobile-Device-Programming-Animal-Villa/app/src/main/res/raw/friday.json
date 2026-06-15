@@ -11,7 +11,8 @@
     "RightStatus": 0,
     "NextLeft": 2,
     "NextRight": 2,
-    "id": 1
+    "id": 1,
+    "Image": "kidrabbit"
   },
   "2": {
     "PromptText": "Mayor Bramble, a tall stag with a kind smile, finds you in the square. \"Neighbor! We could really use help preparing for the fair. There's still a lot to set up. Would you lend a hand?\"",
@@ -25,7 +26,8 @@
     "RightStatus": -5,
     "NextLeft": 3,
     "NextRight": 7,
-    "id": 2
+    "id": 2,
+    "Image": "yesmomcow"
   },
   "3": {
     "PromptText": "The mayor offers you two tasks: helping decorate the main stage, or running supplies between the food stalls. Both will keep you busy until the afternoon.",
@@ -39,7 +41,8 @@
     "RightStatus": 5,
     "NextLeft": 4,
     "NextRight": 4,
-    "id": 3
+    "id": 3,
+    "Image": "yesmomcow"
   },
   "4": {
     "PromptText": "By midday, the square is starting to come together. Cornelius, Rosemary and a few of the foxes wave as you pass. You overhear someone say, \"That new neighbor sure works hard.\" It puts a smile on your face.",
@@ -53,7 +56,8 @@
     "RightStatus": 0,
     "NextLeft": 5,
     "NextRight": 5,
-    "id": 4
+    "id": 4,
+    "Image": "yesdadrabbit"
   },
   "5": {
     "PromptText": "By evening, almost everything is ready. As you walk back through the square, the lanterns are lit one by one. Mayor Bramble pulls you aside. \"Thank you. The village is lucky to have you. Please, take this small token of thanks.\"",
@@ -67,7 +71,8 @@
     "RightStatus": 15,
     "NextLeft": 6,
     "NextRight": 6,
-    "id": 5
+    "id": 5,
+    "Image": "yesmomcow"
   },
   "6": {
     "PromptText": "Back home, you collapse onto the couch. Tomorrow promises to be a big day. You drift off thinking about the friends you've made this week.",
@@ -81,7 +86,8 @@
     "RightStatus": 0,
     "NextLeft": 0,
     "NextRight": 0,
-    "id": 6
+    "id": 6,
+    "Image": "kidrabbit"
   },
   "7": {
     "PromptText": "You spend the day at home reading. It's restful, but you can't help feeling a small pang as you watch your neighbors hurry past your window carrying ribbons, lanterns and baskets of flowers.",
@@ -95,6 +101,7 @@
     "RightStatus": -5,
     "NextLeft": 0,
     "NextRight": 0,
-    "id": 7
+    "id": 7,
+    "Image": "kidrabbit"
   }
 }
