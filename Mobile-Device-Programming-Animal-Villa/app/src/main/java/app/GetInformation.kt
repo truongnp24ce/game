@@ -38,6 +38,18 @@ class GetInformation(private val context: Context) {
     // from this resource instead of the per-day file.
     private var endingResource: Int? = null
 
+    // When true we are inside the opening intro sequence and getAllPrompts
+    // reads from the intro resource instead of the per-day file. The intro
+    // plays once at the very start of a fresh game and then hands off to
+    // the tutorial / Monday flow.
+    private var introResource: Int? = R.raw.intro
+
+    fun isInIntro(): Boolean = introResource != null
+
+    fun finishIntro() {
+        introResource = null
+    }
+
     fun isInEnding(): Boolean = endingResource != null
 
     // True when the day pointer is on the last entry of dayResources (Sunday).
@@ -63,8 +75,8 @@ class GetInformation(private val context: Context) {
     // Collects all prompts for use (ĐỌC TỪ LOCAL FILE)
     private fun getAllPrompts(): MutableList<Prompt>? {
         return try {
-            // Lấy resource ID của ngày hiện tại (hoặc của ending đang diễn ra)
-            val resourceId = endingResource ?: dayResources[i]
+            // Lấy resource ID của ngày hiện tại (hoặc của intro / ending đang diễn ra)
+            val resourceId = endingResource ?: introResource ?: dayResources[i]
 
             // Đọc file JSON từ res/raw/
             val inputStream = context.resources.openRawResource(resourceId)

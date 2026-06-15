@@ -204,6 +204,13 @@ class GamePlayModel: AppCompatActivity() {
                     returnToTitle()
                     return
                 }
+                getInformation.isInIntro() -> {
+                    // Intro just finished. Drop the intro flag so the very next
+                    // load reads the tutorial / day-1 file, then start the
+                    // tutorial from its first prompt.
+                    getInformation.finishIntro()
+                    "1"
+                }
                 getInformation.isLastDay() -> {
                     getInformation.startEnding(pickEnding())
                     "1"
@@ -227,10 +234,11 @@ class GamePlayModel: AppCompatActivity() {
         if (array.getOrNull(3) == previousId && resolvedId != previousId) {
             // Requested prompt was missing from the day file; treat it like an
             // end-of-day sentinel so the story keeps moving forward.
-            if (getInformation.isLastDay()) {
-                getInformation.startEnding(pickEnding())
-            } else if (!getInformation.isInEnding()) {
-                getInformation.nextDayCounter()
+            when {
+                getInformation.isInIntro() -> getInformation.finishIntro()
+                getInformation.isInEnding() -> { /* stay in ending */ }
+                getInformation.isLastDay() -> getInformation.startEnding(pickEnding())
+                else -> getInformation.nextDayCounter()
             }
             getInformation.organizeCurrentPrompt("1", array)
         }
