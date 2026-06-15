@@ -6,6 +6,11 @@ import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import app.AnimalVilla.R
+
+// The four possible week-end outcomes. Which one plays is decided by the
+// player's final Energy / Money / Status (see GamePlayModel.pickEnding).
+enum class EndingType { GOOD, BAD, EXHAUSTED, PENNILESS }
+
 class GetInformation(private val context: Context) {
 
     private var i: Int = 0
@@ -22,6 +27,28 @@ class GetInformation(private val context: Context) {
         R.raw.sunday             // Day 7
     )
 
+    private val endingResources = mapOf(
+        EndingType.GOOD to R.raw.good_ending,
+        EndingType.BAD to R.raw.bad_ending,
+        EndingType.EXHAUSTED to R.raw.exhausted_ending,
+        EndingType.PENNILESS to R.raw.penniless_ending
+    )
+
+    // When non-null we are inside an ending sequence and getAllPrompts reads
+    // from this resource instead of the per-day file.
+    private var endingResource: Int? = null
+
+    fun isInEnding(): Boolean = endingResource != null
+
+    // True when the day pointer is on the last entry of dayResources (Sunday).
+    // Used by GamePlayModel to know that the next "end of day" sentinel
+    // should trigger an ending instead of an out-of-range nextDayCounter().
+    fun isLastDay(): Boolean = endingResource == null && i == dayResources.size - 1
+
+    fun startEnding(type: EndingType) {
+        endingResource = endingResources[type]
+    }
+
     // Counts next day
     fun nextDayCounter() {
         // Clamp to the last available day so callers that advance past
@@ -36,8 +63,8 @@ class GetInformation(private val context: Context) {
     // Collects all prompts for use (ĐỌC TỪ LOCAL FILE)
     private fun getAllPrompts(): MutableList<Prompt>? {
         return try {
-            // Lấy resource ID của ngày hiện tại
-            val resourceId = dayResources[i]
+            // Lấy resource ID của ngày hiện tại (hoặc của ending đang diễn ra)
+            val resourceId = endingResource ?: dayResources[i]
 
             // Đọc file JSON từ res/raw/
             val inputStream = context.resources.openRawResource(resourceId)

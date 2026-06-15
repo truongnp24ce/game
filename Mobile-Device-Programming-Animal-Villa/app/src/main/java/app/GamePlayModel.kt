@@ -1,5 +1,6 @@
 package app
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -189,9 +190,29 @@ class GamePlayModel: AppCompatActivity() {
         // and the screen never updates, leaving the buttons visibly clickable
         // but unresponsive. Detect that sentinel here and advance to the first
         // prompt of the following day instead.
-        val resolvedId = if (nextPromptId == "0") {
-            getInformation.nextDayCounter()
-            "1"
+        //
+        // Two extra cases are layered on top of that:
+        //   * If we're already inside an ending, the "0" sentinel means the
+        //     player just pressed "Back to Start" on the final achieved-screen,
+        //     so finish the activity and return to the title.
+        //   * If we're on Sunday (the last day) the "0" sentinel marks the end
+        //     of the week and should hand off to the appropriate ending file
+        //     instead of looping back to Sunday's first prompt.
+        val resolvedId: String = if (nextPromptId == "0") {
+            when {
+                getInformation.isInEnding() -> {
+                    returnToTitle()
+                    return
+                }
+                getInformation.isLastDay() -> {
+                    getInformation.startEnding(pickEnding())
+                    "1"
+                }
+                else -> {
+                    getInformation.nextDayCounter()
+                    "1"
+                }
+            }
         } else {
             nextPromptId
         }
@@ -206,7 +227,11 @@ class GamePlayModel: AppCompatActivity() {
         if (array.getOrNull(3) == previousId && resolvedId != previousId) {
             // Requested prompt was missing from the day file; treat it like an
             // end-of-day sentinel so the story keeps moving forward.
-            getInformation.nextDayCounter()
+            if (getInformation.isLastDay()) {
+                getInformation.startEnding(pickEnding())
+            } else if (!getInformation.isInEnding()) {
+                getInformation.nextDayCounter()
+            }
             getInformation.organizeCurrentPrompt("1", array)
         }
 
@@ -217,6 +242,29 @@ class GamePlayModel: AppCompatActivity() {
             nextDayButtonTextView.text = "Go To Next Day..."
             updatePromptImage(promptImage, array)
         }
+    }
+
+    // Chooses which ending file plays based on the player's final stats.
+    // BAD has highest priority (a tarnished reputation overrides the other
+    // outcomes), then EXHAUSTED, then PENNILESS; otherwise the player gets
+    // the GOOD ending. Thresholds are intentionally generous so that each
+    // ending is reachable through the choices available across the week.
+    private fun pickEnding(): EndingType {
+        return when {
+            status < 30 -> EndingType.BAD
+            energy < 30 -> EndingType.EXHAUSTED
+            money < 40 -> EndingType.PENNILESS
+            else -> EndingType.GOOD
+        }
+    }
+
+    // Closes the gameplay activity and returns the player to the title
+    // screen. Called when "Back to Start" is pressed on an ending screen.
+    private fun returnToTitle() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+        startActivity(intent)
+        finish()
     }
 
     // Applies the Energy / Money / Status deltas attached to the choice the
