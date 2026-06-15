@@ -41,21 +41,23 @@
         app:layout_constraintTop_toBottomOf="@+id/dayLabel"
         app:layout_constraintVertical_bias="0.0" />
 
-    <!-- Character / scene image, sits at the top of the card -->
+    <!-- Character / scene image, sits at the top of the card.
+         Square 1:1 frame so the visible bounds match the (square) artwork
+         instead of leaving empty space on the sides. -->
     <ImageView
         android:id="@+id/promptImage"
         android:layout_width="0dp"
-        android:layout_height="180dp"
-        android:layout_marginStart="16dp"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:adjustViewBounds="true"
         android:contentDescription="@string/prompt_image_desc"
         android:elevation="3dp"
-        android:scaleType="fitCenter"
+        android:scaleType="centerInside"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="@+id/promptCard"
+        app:layout_constraintHeight_max="220dp"
         app:layout_constraintStart_toStartOf="@+id/promptCard"
-        app:layout_constraintTop_toTopOf="@+id/promptCard" />
+        app:layout_constraintTop_toTopOf="@+id/promptCard"
+        app:layout_constraintWidth_max="220dp" />
 
     <!-- Prompt text, below the image inside the same card -->
     <TextView
