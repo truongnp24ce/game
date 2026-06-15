@@ -63,4 +63,7 @@
     <color name="villa_stat_tile">#FFFFFFFF</color>
     <color name="villa_stat_border">#FFE89A95</color>
     <color name="villa_image_bg">#FF55C7E0</color>
+
+    <!-- Launcher icon background (sky blue, matches raccoon artwork) -->
+    <color name="ic_launcher_background">#FFA8DAEF</color>
 </resources>

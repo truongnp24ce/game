@@ -1,0 +1,62 @@
+{
+  "1": {
+    "PromptText": "Monday morning is bright. Soft sunlight pools across your floorboards. The boxes are unpacked, the kettle is on, and a whole new village is waiting just outside your door.",
+    "LeftOption": "Continue.",
+    "LeftEnergy": 0,
+    "LeftMoney": 0,
+    "LeftStatus": 0,
+    "RightOption": "Continue.",
+    "RightEnergy": 0,
+    "RightMoney": 0,
+    "RightStatus": 0,
+    "NextLeft": 2,
+    "NextRight": 2,
+    "id": 1,
+    "Image": "kidrabbit"
+  },
+  "2": {
+    "PromptText": "Welcome to Animal Villa! A cozy little town tucked between green hills, where every neighbor has a story and every doorstep feels like home.",
+    "LeftOption": "Continue.",
+    "LeftEnergy": 0,
+    "LeftMoney": 0,
+    "LeftStatus": 0,
+    "RightOption": "Continue.",
+    "RightEnergy": 0,
+    "RightMoney": 0,
+    "RightStatus": 0,
+    "NextLeft": 3,
+    "NextRight": 3,
+    "id": 2,
+    "Image": "kidrabbit"
+  },
+  "3": {
+    "PromptText": "Over the next week you'll meet new friends, lend a paw, and choose how your story unfolds. Take care of your Energy, your Money and your reputation \u2014 every choice you make leaves a mark on the village.",
+    "LeftOption": "Continue.",
+    "LeftEnergy": 0,
+    "LeftMoney": 0,
+    "LeftStatus": 0,
+    "RightOption": "Continue.",
+    "RightEnergy": 0,
+    "RightMoney": 0,
+    "RightStatus": 0,
+    "NextLeft": 4,
+    "NextRight": 4,
+    "id": 3,
+    "Image": "yescat"
+  },
+  "4": {
+    "PromptText": "Ready to begin? Your first day in Animal Villa starts now.",
+    "LeftOption": "Start my story.",
+    "LeftEnergy": 0,
+    "LeftMoney": 0,
+    "LeftStatus": 0,
+    "RightOption": "Start my story.",
+    "RightEnergy": 0,
+    "RightMoney": 0,
+    "RightStatus": 0,
+    "NextLeft": 0,
+    "NextRight": 0,
+    "id": 4,
+    "Image": "kidrabbit"
+  }
+}
