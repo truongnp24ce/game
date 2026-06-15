@@ -42,27 +42,18 @@
                 android:id="@+id/iconSave"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="6dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/ic_save_desc"
                 android:src="@drawable/ic_villa_save" />
 
             <ImageView
-                android:id="@+id/iconWorld"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_marginEnd="4dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/ic_world_desc"
-                android:src="@drawable/ic_villa_world" />
-
-            <ImageView
-                android:id="@+id/iconMegaphone"
+                android:id="@+id/iconExit"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/ic_megaphone_desc"
-                android:src="@drawable/ic_villa_megaphone" />
+                android:contentDescription="@string/ic_exit_desc"
+                android:src="@drawable/ic_villa_exit" />
         </LinearLayout>
     </FrameLayout>
 

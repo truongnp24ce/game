@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -13,6 +14,14 @@ import androidx.core.view.WindowInsetsControllerCompat
 import app.AnimalVilla.R
 
 class GamePlayModel: AppCompatActivity() {
+
+    companion object {
+        // Intent extra controlling whether onCreate should reload the saved
+        // game (true, used when the title screen's "Continue" button starts
+        // us) or wipe the save and start a brand-new run (false, used by the
+        // "Discard save" path and by every other entry point).
+        const val EXTRA_RESUME_SAVE = "extra_resume_save"
+    }
 
     //Variables
     private lateinit var getInformation: GetInformation
@@ -51,17 +60,55 @@ class GamePlayModel: AppCompatActivity() {
         val nextDayButton: Button = findViewById(R.id.nextDayButton)
         val rightButton: Button = findViewById(R.id.rightButton)
         val leftButton: Button = findViewById(R.id.leftButton)
+        val iconSave: ImageView = findViewById(R.id.iconSave)
+        val iconExit: ImageView = findViewById(R.id.iconExit)
 
         statEnergyView = findViewById(R.id.statEnergy)
         statMoneyView = findViewById(R.id.statMoney)
         statStatusView = findViewById(R.id.statStatus)
+
+        // Decide which prompt to start at: a fresh game always opens with the
+        // intro's first prompt, but if the title screen asked us to resume a
+        // save we restore the stored day/intro/ending state and stats first.
+        val resume = intent.getBooleanExtra(EXTRA_RESUME_SAVE, false)
+        val startingPromptId: String = if (resume) {
+            val snapshot = GameSave.load(this)
+            if (snapshot != null) {
+                getInformation.restoreState(snapshot.dayIndex, snapshot.inIntro, snapshot.endingType)
+                energy = snapshot.energy
+                money = snapshot.money
+                status = snapshot.status
+                snapshot.promptId.toString()
+            } else {
+                "1"
+            }
+        } else {
+            // Starting fresh: clear any prior save so a future "Continue"
+            // doesn't resurrect stats from a previous run.
+            GameSave.clear(this)
+            "1"
+        }
+
         refreshStats()
 
         // Clear array before populating
         array.clear()
 
-        //Gets the first prompt (prompt ids are 1-based)
-        getInformation.organizeCurrentPrompt("1", array)
+        //Gets the starting prompt (prompt ids are 1-based)
+        getInformation.organizeCurrentPrompt(startingPromptId, array)
+
+        // Save: snapshots the current spot and stats so the title screen can
+        // surface a "Continue" option on the next launch.
+        iconSave.setOnClickListener {
+            saveCurrentProgress()
+            Toast.makeText(this, getString(R.string.save_success), Toast.LENGTH_SHORT).show()
+        }
+
+        // Exit: leaves the game without modifying any existing save and
+        // returns the player to the title screen.
+        iconExit.setOnClickListener {
+            returnToTitle()
+        }
 
         // Check if array has enough elements before accessing
         if (array.size >= 13) {
@@ -201,6 +248,10 @@ class GamePlayModel: AppCompatActivity() {
         val resolvedId: String = if (nextPromptId == "0") {
             when {
                 getInformation.isInEnding() -> {
+                    // Finished a play-through: the player explicitly chose
+                    // "Back to Start" so wipe their save before going back
+                    // to the title screen.
+                    GameSave.clear(this)
                     returnToTitle()
                     return
                 }
@@ -267,12 +318,32 @@ class GamePlayModel: AppCompatActivity() {
     }
 
     // Closes the gameplay activity and returns the player to the title
-    // screen. Called when "Back to Start" is pressed on an ending screen.
+    // screen. Called when "Back to Start" is pressed on an ending screen
+    // and when the in-game Exit icon is tapped.
     private fun returnToTitle() {
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, TitleScreenActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
         finish()
+    }
+
+    // Persists the current spot in the story (day index, prompt id,
+    // intro/ending state) along with the live Energy / Money / Status so
+    // the title screen's "Continue" button can resume here later.
+    private fun saveCurrentProgress() {
+        val promptId = array.getOrNull(3)?.toIntOrNull() ?: 1
+        GameSave.save(
+            this,
+            GameSave.Snapshot(
+                dayIndex = getInformation.currentDayIndex(),
+                promptId = promptId,
+                inIntro = getInformation.isInIntro(),
+                endingType = getInformation.currentEndingType(),
+                energy = energy,
+                money = money,
+                status = status
+            )
+        )
     }
 
     // Applies the Energy / Money / Status deltas attached to the choice the
