@@ -55,7 +55,7 @@ class GetInformation(private val context: Context) {
     // True when the day pointer is on the last entry of dayResources (Sunday).
     // Used by GamePlayModel to know that the next "end of day" sentinel
     // should trigger an ending instead of an out-of-range nextDayCounter().
-    fun isLastDay(): Boolean = endingResource == null && i == dayResources.size - 1
+    fun isLastDay(): Boolean = endingResource == null && introResource == null && i == dayResources.size - 1
 
     fun startEnding(type: EndingType) {
         endingResource = endingResources[type]
