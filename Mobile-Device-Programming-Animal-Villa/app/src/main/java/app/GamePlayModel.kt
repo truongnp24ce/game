@@ -17,6 +17,18 @@ class GamePlayModel: AppCompatActivity() {
     private lateinit var getInformation: GetInformation
     private var array:ArrayList<String> = arrayListOf() //Holds a list of array items for variables above. Will be used to add values to variables above
 
+    // Player stats displayed on the three bottom tiles (heart / fire / dollar).
+    // They mirror the starting values used by RegistrationActivity for new
+    // players and get adjusted by each chosen option's Energy / Money /
+    // Status delta.
+    private var energy = 50
+    private var money = 50
+    private var status = 50
+
+    private lateinit var statEnergyView: TextView
+    private lateinit var statMoneyView: TextView
+    private lateinit var statStatusView: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         //Lets the game run. super.onCreate() and setContentView() MUST run
         //before we touch any views or the window insets controller, otherwise
@@ -39,9 +51,14 @@ class GamePlayModel: AppCompatActivity() {
         val rightButton: Button = findViewById(R.id.rightButton)
         val leftButton: Button = findViewById(R.id.leftButton)
 
+        statEnergyView = findViewById(R.id.statEnergy)
+        statMoneyView = findViewById(R.id.statMoney)
+        statStatusView = findViewById(R.id.statStatus)
+        refreshStats()
+
         // Clear array before populating
         array.clear()
-        
+
         //Gets the first prompt (prompt ids are 1-based)
         getInformation.organizeCurrentPrompt("1", array)
 
@@ -55,24 +72,22 @@ class GamePlayModel: AppCompatActivity() {
             updatePromptImage(promptImage, array)
 
             //Label the buttons
-            val leftButtonTextView = findViewById<Button>(R.id.leftButton)
-            val rightButtonTextView = findViewById<Button>(R.id.rightButton)
-            val nextDayButtonTextView = findViewById<Button>(R.id.nextDayButton)
-            leftButtonTextView.text = array[4]
-            rightButtonTextView.text = array[5]
-            nextDayButtonTextView.text = "Go to next Day"
+            leftButton.text = array[4]
+            rightButton.text = array[5]
+            nextDayButton.text = "Go to next Day"
 
             //Do this when left button is pressed
             leftButton.setOnClickListener {
                 //left button follows the NextLeft id (array[1])
+                applyChoiceDeltas(isLeft = true)
                 changeButtonsAndText(
                     array[1],
                     array,
                     textView,
                     promptImage,
-                    leftButtonTextView,
-                    rightButtonTextView,
-                    nextDayButtonTextView
+                    leftButton,
+                    rightButton,
+                    nextDayButton
                 )
                 checkDay(array[12].toBoolean(), leftButton, rightButton, nextDayButton)
             }
@@ -80,32 +95,36 @@ class GamePlayModel: AppCompatActivity() {
             //Do this when right button is pressed
             rightButton.setOnClickListener {
                 //right button follows the NextRight id (array[2])
+                applyChoiceDeltas(isLeft = false)
                 changeButtonsAndText(
                     array[2],
                     array,
                     textView,
                     promptImage,
-                    leftButtonTextView,
-                    rightButtonTextView,
-                    nextDayButtonTextView
+                    leftButton,
+                    rightButton,
+                    nextDayButton
                 )
                 checkDay(array[12].toBoolean(), leftButton, rightButton, nextDayButton)
             }
 
-            //Do this when next day button is pressed
-            nextDayButton.setOnClickListener{
-                //next day button follows the NextRight id (array[2]) like before
-                changeButtonsAndText(
-                    array[2],
-                    array,
-                    textView,
-                    promptImage,
-                    leftButtonTextView,
-                    rightButtonTextView,
-                    nextDayButtonTextView
-                )
-                checkDay(array[12].toBoolean(), leftButton, rightButton, nextDayButton)
-
+            //Do this when next day button is pressed.
+            //
+            //Previously this re-used `array[2]` (NextRight) as the prompt id
+            //which meant clicking "Next Day" on the tutorial wrap-up loaded
+            //prompt 11 of Monday instead of Monday's prompt 1, and the user
+            //would visually appear stuck on a confusing scene. Always advance
+            //to the first prompt of the next day instead.
+            nextDayButton.setOnClickListener {
+                getInformation.nextDayCounter()
+                getInformation.organizeCurrentPrompt("1", array)
+                if (array.size >= 13) {
+                    textView.text = array[0]
+                    leftButton.text = array[4]
+                    rightButton.text = array[5]
+                    updatePromptImage(promptImage, array)
+                    checkDay(array[12].toBoolean(), leftButton, rightButton, nextDayButton)
+                }
             }
         } else {
             // Fallback so the screen is never visually empty if the prompt
@@ -141,11 +160,13 @@ class GamePlayModel: AppCompatActivity() {
         nextDayButton.visibility = View.VISIBLE
     }
 
-    //Get json for correct day
+    //Get json for correct day. When the prompt advertises NextDay=true (only
+    //the tutorial does this today) we surface the "Next Day" button; the
+    //actual day counter is only incremented by the nextDayButton click
+    //handler so we don't double-advance and skip a day's content.
     private fun checkDay(NextDay: Boolean, leftButton: Button, rightButton: Button, nextDayButton: Button) {
         if(NextDay){
             hideButtons(leftButton, rightButton, nextDayButton)
-            getInformation.nextDayCounter()
         }
         else{
             showButtons(leftButton, rightButton, nextDayButton)
@@ -174,7 +195,21 @@ class GamePlayModel: AppCompatActivity() {
         } else {
             nextPromptId
         }
+
+        // Remember the current prompt so we can detect when the requested id
+        // doesn't exist (e.g. Tuesday's prompt 3 points at id 4/5 which were
+        // never authored). Without this guard the button click silently
+        // no-ops because organizeCurrentPrompt returns the array unchanged
+        // and the player appears stuck.
+        val previousId = array.getOrNull(3)
         getInformation.organizeCurrentPrompt(resolvedId, array)
+        if (array.getOrNull(3) == previousId && resolvedId != previousId) {
+            // Requested prompt was missing from the day file; treat it like an
+            // end-of-day sentinel so the story keeps moving forward.
+            getInformation.nextDayCounter()
+            getInformation.organizeCurrentPrompt("1", array)
+        }
+
         if (array.size >= 6) {
             textView.text = array[0]
             leftButtonTextView.text = array[4]
@@ -182,6 +217,27 @@ class GamePlayModel: AppCompatActivity() {
             nextDayButtonTextView.text = "Go To Next Day..."
             updatePromptImage(promptImage, array)
         }
+    }
+
+    // Applies the Energy / Money / Status deltas attached to the choice the
+    // player just clicked and refreshes the three stat tiles in the bottom
+    // bar. Stats are clamped to 0..100 to mirror typical UI bounds.
+    private fun applyChoiceDeltas(isLeft: Boolean) {
+        if (array.size < 12) return
+        val energyDelta = (if (isLeft) array[6] else array[7]).toIntOrNull() ?: 0
+        val moneyDelta = (if (isLeft) array[8] else array[9]).toIntOrNull() ?: 0
+        val statusDelta = (if (isLeft) array[10] else array[11]).toIntOrNull() ?: 0
+
+        energy = (energy + energyDelta).coerceIn(0, 100)
+        money = (money + moneyDelta).coerceIn(0, 100)
+        status = (status + statusDelta).coerceIn(0, 100)
+        refreshStats()
+    }
+
+    private fun refreshStats() {
+        if (::statEnergyView.isInitialized) statEnergyView.text = energy.toString()
+        if (::statMoneyView.isInitialized) statMoneyView.text = money.toString()
+        if (::statStatusView.isInitialized) statStatusView.text = status.toString()
     }
 
     // Pool of bundled character drawables used as a deterministic fallback

@@ -25,4 +25,10 @@
     <string name="day_label">Your story continues…</string>
     <string name="gameplay_load_error">Oops, we couldn\'t load your story. Please restart the game and try again.</string>
     <string name="prompt_image_desc">Scene illustration</string>
+    <string name="ic_save_desc">Save</string>
+    <string name="ic_world_desc">World</string>
+    <string name="ic_megaphone_desc">Announcements</string>
+    <string name="ic_heart_desc">Energy</string>
+    <string name="ic_fire_desc">Status</string>
+    <string name="ic_dollar_desc">Money</string>
 </resources>

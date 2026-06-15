@@ -11,7 +11,8 @@
     "RightStatus": 0,
     "NextLeft": 2,
     "NextRight": 2,
-    "id": 1
+    "id": 1,
+    "Image": "kidrabbit"
   },
   "2": {
     "PromptText": "There is a knock at your door. Standing under a small umbrella is little Keno, the raccoon kid. \"Mom said I could invite a friend to the library reading today. Will you come with me? Pleeease?\"",
@@ -25,7 +26,8 @@
     "RightStatus": -10,
     "NextLeft": 3,
     "NextRight": 7,
-    "id": 2
+    "id": 2,
+    "Image": "sonraccoon"
   },
   "3": {
     "PromptText": "The library is warm and smells like old paper. Keno picks out a book about brave knights and pulls you to a cushion in the corner. The story is long, and Keno keeps asking questions about every page.",
@@ -39,10 +41,11 @@
     "RightStatus": 0,
     "NextLeft": 4,
     "NextRight": 4,
-    "id": 3
+    "id": 3,
+    "Image": "sonraccoon"
   },
   "4": {
-    "PromptText": "When the rain stops, Keno hugs you tight before running back home. Darryl waves from the doorway with a grateful smile. \"You really made their day. Here, take this — a little something we baked this morning.\"",
+    "PromptText": "When the rain stops, Keno hugs you tight before running back home. Darryl waves from the doorway with a grateful smile. \"You really made their day. Here, take this \u2014 a little something we baked this morning.\"",
     "LeftOption": "Accept the warm pie.",
     "LeftEnergy": 10,
     "LeftMoney": 5,
@@ -53,7 +56,8 @@
     "RightStatus": 5,
     "NextLeft": 5,
     "NextRight": 5,
-    "id": 4
+    "id": 4,
+    "Image": "yesraccoon"
   },
   "5": {
     "PromptText": "Back home, you settle into a chair by the window and watch raindrops slide down the glass. It's been a peaceful, meaningful day. You think to yourself that small kindnesses make this village feel like home.",
@@ -67,7 +71,8 @@
     "RightStatus": 5,
     "NextLeft": 6,
     "NextRight": 6,
-    "id": 5
+    "id": 5,
+    "Image": "kidrabbit"
   },
   "6": {
     "PromptText": "The day winds down quietly. You go to bed feeling content with how the week is going.",
@@ -81,10 +86,11 @@
     "RightStatus": 0,
     "NextLeft": 0,
     "NextRight": 0,
-    "id": 6
+    "id": 6,
+    "Image": "kidrabbit"
   },
   "7": {
-    "PromptText": "Keno's ears droop. \"Oh… okay. Maybe next time.\" They walk back through the rain, dragging the umbrella behind them. You can't shake a small twist of guilt for the rest of the morning.",
+    "PromptText": "Keno's ears droop. \"Oh\u2026 okay. Maybe next time.\" They walk back through the rain, dragging the umbrella behind them. You can't shake a small twist of guilt for the rest of the morning.",
     "LeftOption": "Try to make up for it later.",
     "LeftEnergy": -5,
     "LeftMoney": -10,
@@ -95,6 +101,7 @@
     "RightStatus": -5,
     "NextLeft": 0,
     "NextRight": 0,
-    "id": 7
+    "id": 7,
+    "Image": "nodadraccoon"
   }
 }

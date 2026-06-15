@@ -54,4 +54,13 @@
     <color name="text_primary">@color/black</color>
     <color name="text_secondary">@color/gray_600</color>
     <color name="text_hint">@color/gray_400</color>
+
+    <!-- Animal Villa cozy palette (pink / mint mockup) -->
+    <color name="villa_background">#FFB8E0CC</color>
+    <color name="villa_pink">#FFF8C0BD</color>
+    <color name="villa_pink_dark">#FFE89A95</color>
+    <color name="villa_pink_text">#FFB14A4A</color>
+    <color name="villa_stat_tile">#FFFFFFFF</color>
+    <color name="villa_stat_border">#FFE89A95</color>
+    <color name="villa_image_bg">#FF55C7E0</color>
 </resources>
