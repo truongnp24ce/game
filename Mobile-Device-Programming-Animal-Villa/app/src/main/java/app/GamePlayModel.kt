@@ -32,6 +32,12 @@ class GamePlayModel: AppCompatActivity() {
         // cú vuốt rõ ràng.
         private const val SWIPE_DISTANCE_THRESHOLD = 120f
         private const val SWIPE_VELOCITY_THRESHOLD = 200f
+
+        // Tag used by checkDay() to mark nextDayButton as a "merged choice"
+        // overlay so its click forwards to the left choice instead of
+        // advancing the day counter.
+        private const val TAG_MERGED_CHOICE = "merged_choice"
+        private const val NEXT_DAY_LABEL = "Go to next Day"
     }
 
     //Variables
@@ -178,6 +184,14 @@ class GamePlayModel: AppCompatActivity() {
             //would visually appear stuck on a confusing scene. Always advance
             //to the first prompt of the next day instead.
             nextDayButton.setOnClickListener {
+                // When the prompt had two identical choices we reuse this
+                // overlay as a single merged button — forward to the left
+                // choice so stat deltas and the NextLeft id are applied
+                // exactly as if the player had tapped the original button.
+                if (nextDayButton.tag == TAG_MERGED_CHOICE) {
+                    leftButton.performClick()
+                    return@setOnClickListener
+                }
                 getInformation.nextDayCounter()
                 getInformation.organizeCurrentPrompt("1", array)
                 if (array.size >= 13) {
@@ -272,11 +286,30 @@ class GamePlayModel: AppCompatActivity() {
     //the tutorial does this today) we surface the "Next Day" button; the
     //actual day counter is only incremented by the nextDayButton click
     //handler so we don't double-advance and skip a day's content.
+    //
+    //We also collapse "same-choice" prompts here: when the JSON gives both
+    //buttons the identical label (e.g. the end-of-day "Continue to the next
+    //day." scenes) showing two buttons is just visual clutter, so we reuse
+    //the centered nextDayButton overlay as a single, full-width button and
+    //tag it so its click forwards to the left choice's logic instead of the
+    //regular next-day flow.
     private fun checkDay(NextDay: Boolean, leftButton: Button, rightButton: Button, nextDayButton: Button) {
-        if(NextDay){
+        if (NextDay) {
+            nextDayButton.tag = null
+            nextDayButton.text = NEXT_DAY_LABEL
             hideButtons(leftButton, rightButton, nextDayButton)
+            return
         }
-        else{
+
+        val leftText = leftButton.text?.toString()?.trim().orEmpty()
+        val rightText = rightButton.text?.toString()?.trim().orEmpty()
+        if (leftText.isNotEmpty() && leftText.equals(rightText, ignoreCase = true)) {
+            nextDayButton.tag = TAG_MERGED_CHOICE
+            nextDayButton.text = leftButton.text
+            hideButtons(leftButton, rightButton, nextDayButton)
+        } else {
+            nextDayButton.tag = null
+            nextDayButton.text = NEXT_DAY_LABEL
             showButtons(leftButton, rightButton, nextDayButton)
         }
     }
