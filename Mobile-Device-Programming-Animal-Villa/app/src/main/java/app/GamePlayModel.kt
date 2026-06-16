@@ -74,6 +74,7 @@ class GamePlayModel: AppCompatActivity() {
         val leftButton: Button = findViewById(R.id.leftButton)
         val iconSave: ImageView = findViewById(R.id.iconSave)
         val iconExit: ImageView = findViewById(R.id.iconExit)
+        val headerTitle: TextView = findViewById(R.id.headerTitle)
 
         statEnergyView = findViewById(R.id.statEnergy)
         statMoneyView = findViewById(R.id.statMoney)
@@ -130,6 +131,7 @@ class GamePlayModel: AppCompatActivity() {
             //Displays first prompt
             textView.text = array[0]
             updatePromptImage(promptImage, array)
+            updateHeaderTitle(headerTitle)
 
             //Label the buttons
             leftButton.text = array[4]
@@ -183,6 +185,7 @@ class GamePlayModel: AppCompatActivity() {
                     leftButton.text = array[4]
                     rightButton.text = array[5]
                     updatePromptImage(promptImage, array)
+                    updateHeaderTitle(headerTitle)
                     checkDay(array[12].toBoolean(), leftButton, rightButton, nextDayButton)
                 }
             }
@@ -357,6 +360,20 @@ class GamePlayModel: AppCompatActivity() {
             rightButtonTextView.text = array[5]
             nextDayButtonTextView.text = "Go To Next Day..."
             updatePromptImage(promptImage, array)
+            updateHeaderTitle(findViewById(R.id.headerTitle))
+        }
+    }
+
+    // Updates the gameplay header to show the current day of the week.
+    // Falls back to "Animal Villa" while the intro or an ending sequence is
+    // playing because those flows are not tied to a specific weekday.
+    private fun updateHeaderTitle(headerTitle: TextView) {
+        val titles = resources.getStringArray(R.array.day_titles)
+        headerTitle.text = when {
+            getInformation.isInIntro() -> getString(R.string.animal_villa)
+            getInformation.isInEnding() -> getString(R.string.animal_villa)
+            else -> titles.getOrNull(getInformation.currentDayIndex())
+                ?: getString(R.string.animal_villa)
         }
     }
 

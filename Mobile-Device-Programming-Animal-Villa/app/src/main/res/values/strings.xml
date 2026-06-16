@@ -37,4 +37,17 @@
     <string name="continue_game">Continue</string>
     <string name="discard_save">Discard save and start new</string>
     <string name="save_success">Game saved</string>
+
+    <!-- Header titles shown in the gameplay top bar, one per day index.
+         Index 0 is the tutorial day, indices 1..7 are Monday..Sunday. -->
+    <string-array name="day_titles">
+        <item>Tutorial</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
 </resources>
