@@ -238,4 +238,4 @@ Data is stored in **two layers**:
 
 ---
 
-> 📌 **Note:** This report was generated automatically based on the SmartHomeApp report template and the actual contents of the [truongnp24ce/game](https://github.com/truongnp24ce/game) repository.
+> [truongnp24ce/game](https://github.com/truongnp24ce/game) 
