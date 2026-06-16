@@ -1,17 +1,22 @@
 package app
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GestureDetectorCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import app.AnimalVilla.R
+import kotlin.math.abs
 
 class GamePlayModel: AppCompatActivity() {
 
@@ -21,6 +26,12 @@ class GamePlayModel: AppCompatActivity() {
         // us) or wipe the save and start a brand-new run (false, used by the
         // "Discard save" path and by every other entry point).
         const val EXTRA_RESUME_SAVE = "extra_resume_save"
+
+        // Ngưỡng nhận diện vuốt ngang (theo pixel & vận tốc px/s). Đặt đủ
+        // lớn để bỏ qua các chạm/cuộn nhẹ nhưng vẫn dễ kích hoạt với một
+        // cú vuốt rõ ràng.
+        private const val SWIPE_DISTANCE_THRESHOLD = 120f
+        private const val SWIPE_VELOCITY_THRESHOLD = 200f
     }
 
     //Variables
@@ -39,6 +50,7 @@ class GamePlayModel: AppCompatActivity() {
     private lateinit var statMoneyView: TextView
     private lateinit var statStatusView: TextView
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         //Lets the game run. super.onCreate() and setContentView() MUST run
         //before we touch any views or the window insets controller, otherwise
@@ -182,6 +194,51 @@ class GamePlayModel: AppCompatActivity() {
             leftButton.visibility = View.GONE
             rightButton.visibility = View.GONE
             nextDayButton.visibility = View.GONE
+        }
+
+        // Swipe-to-choose: vuốt sang trái = chọn lựa chọn bên trái (NO),
+        // vuốt sang phải = chọn lựa chọn bên phải (YES). Đây chính là cơ
+        // chế điều khiển chính được mô tả trong README (Requirement 1).
+        // Triển khai bằng cách gắn một GestureDetector lên view gốc và uỷ
+        // quyền cho `performClick()` của hai nút để tái dùng toàn bộ logic
+        // cập nhật stat / chuyển prompt đã viết sẵn cho click. Trả về
+        // false trong onTouchListener khi không bắt được fling để các view
+        // con (nút, icon save/exit) vẫn nhận sự kiện chạm bình thường.
+        val gestureDetector = GestureDetectorCompat(
+            this,
+            object : GestureDetector.SimpleOnGestureListener() {
+                override fun onDown(e: MotionEvent): Boolean = true
+
+                override fun onFling(
+                    e1: MotionEvent?,
+                    e2: MotionEvent,
+                    velocityX: Float,
+                    velocityY: Float
+                ): Boolean {
+                    if (e1 == null) return false
+                    val dx = e2.x - e1.x
+                    val dy = e2.y - e1.y
+                    // Bỏ qua nếu chủ yếu là vuốt dọc hoặc quá ngắn / quá chậm
+                    // để tránh nhầm với cuộn hoặc chạm bình thường.
+                    if (abs(dx) < SWIPE_DISTANCE_THRESHOLD) return false
+                    if (abs(dx) <= abs(dy)) return false
+                    if (abs(velocityX) < SWIPE_VELOCITY_THRESHOLD) return false
+                    // Chỉ phản hồi khi hai nút lựa chọn đang hiển thị; ở
+                    // màn "Next Day" ta để người chơi phải bấm nút thật.
+                    if (leftButton.visibility != View.VISIBLE ||
+                        rightButton.visibility != View.VISIBLE
+                    ) {
+                        return false
+                    }
+                    if (dx > 0) rightButton.performClick()
+                    else leftButton.performClick()
+                    return true
+                }
+            }
+        )
+        val gameRoot: View = findViewById(R.id.GamePlay)
+        gameRoot.setOnTouchListener { _, event ->
+            gestureDetector.onTouchEvent(event)
         }
 
     }
