@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -51,3 +51,21 @@ jobs:
           name: AnimalVilla-debug-apk
           path: Mobile-Device-Programming-Animal-Villa/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
+
+      - name: Rename APK for release
+        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+        run: |
+          mkdir -p release
+          cp app/build/outputs/apk/debug/*.apk "release/AnimalVilla-debug-build-${{ github.run_number }}.apk"
+
+      - name: Create GitHub Release
+        if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: AnimalVilla Debug Build ${{ github.run_number }}
+          body: |
+            Debug APK tự động build từ commit ${{ github.sha }}.
+
+            Tải file `.apk` ở mục Assets bên dưới và cài đặt trên thiết bị Android.
+          files: Mobile-Device-Programming-Animal-Villa/release/*.apk
