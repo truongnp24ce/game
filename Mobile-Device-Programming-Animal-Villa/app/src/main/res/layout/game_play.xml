@@ -100,28 +100,125 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageFrame" />
 
-    <!-- Bottom row: left choice button, three stat tiles (heart / fire /
-         dollar), right choice button. -->
+    <!-- Stat tiles row: heart (energy), fire (status), dollar (money).
+         Placed in its own row above the choice buttons so the full-width
+         "Continue" / "Next Day" overlay button cannot cover the stats, and
+         long choice button text cannot squeeze them out either. -->
     <LinearLayout
-        android:id="@+id/bottomRow"
-        android:layout_width="0dp"
+        android:id="@+id/statsRow"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="4dp"
-        android:gravity="center_vertical"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomRow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/promptBox"
         app:layout_constraintVertical_bias="1.0">
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/statEnergy"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_villa_stat_tile"
+                android:gravity="center"
+                android:text="50"
+                android:textColor="@color/villa_pink_text"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="2dp"
+                android:contentDescription="@string/ic_heart_desc"
+                android:src="@drawable/ic_villa_heart" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/statStatus"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_villa_stat_tile"
+                android:gravity="center"
+                android:text="50"
+                android:textColor="@color/villa_pink_text"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="2dp"
+                android:contentDescription="@string/ic_fire_desc"
+                android:src="@drawable/ic_villa_fire" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/statMoney"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_villa_stat_tile"
+                android:gravity="center"
+                android:text="50"
+                android:textColor="@color/villa_pink_text"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="2dp"
+                android:contentDescription="@string/ic_dollar_desc"
+                android:src="@drawable/ic_villa_dollar" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Bottom row: left and right choice buttons. The "Next Day" / "Continue"
+         button overlays this row only, so the stat tiles above remain visible
+         regardless of which button state is showing. -->
+    <LinearLayout
+        android:id="@+id/bottomRow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp"
+        android:gravity="center_vertical"
+        android:minHeight="44dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
         <Button
             android:id="@+id/leftButton"
             android:layout_width="0dp"
-            android:layout_height="44dp"
-            android:layout_weight="1.1"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
             android:background="@drawable/bg_villa_choice"
+            android:minHeight="44dp"
             android:paddingStart="6dp"
             android:paddingEnd="6dp"
             android:stateListAnimator="@null"
@@ -131,98 +228,13 @@
             android:textSize="12sp"
             tools:ignore="DuplicateSpeakableTextCheck,SpeakableTextPresentCheck" />
 
-        <!-- Stat tiles cluster: heart (energy), fire (status), dollar (money) -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:layout_marginEnd="6dp"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/statEnergy"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:background="@drawable/bg_villa_stat_tile"
-                    android:gravity="center"
-                    android:text="50"
-                    android:textColor="@color/villa_pink_text"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="2dp"
-                    android:contentDescription="@string/ic_heart_desc"
-                    android:src="@drawable/ic_villa_heart" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/statStatus"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:background="@drawable/bg_villa_stat_tile"
-                    android:gravity="center"
-                    android:text="50"
-                    android:textColor="@color/villa_pink_text"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="2dp"
-                    android:contentDescription="@string/ic_fire_desc"
-                    android:src="@drawable/ic_villa_fire" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/statMoney"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:background="@drawable/bg_villa_stat_tile"
-                    android:gravity="center"
-                    android:text="50"
-                    android:textColor="@color/villa_pink_text"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="2dp"
-                    android:contentDescription="@string/ic_dollar_desc"
-                    android:src="@drawable/ic_villa_dollar" />
-            </LinearLayout>
-        </LinearLayout>
-
         <Button
             android:id="@+id/rightButton"
             android:layout_width="0dp"
-            android:layout_height="44dp"
-            android:layout_weight="1.1"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@drawable/bg_villa_choice"
+            android:minHeight="44dp"
             android:paddingStart="6dp"
             android:paddingEnd="6dp"
             android:stateListAnimator="@null"
