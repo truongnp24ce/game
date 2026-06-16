@@ -43,4 +43,9 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
+
+    fun goToRegister(view: View) {
+        startActivity(Intent(this, RegistrationActivity::class.java))
+        finish()
+    }
 }
