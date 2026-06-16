@@ -1,52 +1,6 @@
 # Animal Villa
 ## Design Document
 
-## Contributors :
-- Elizabeth Bissinger
-- Chloe(Cass) Motz
-- Jake Plagge
-- Kelli Porter
-
-## Scrum Roles :
-- DevOps/Product Owner/Scrum Master: Kelli Porter
-- Frontend Developer: Elizabeth Bissinger
-- Integration Developer: Jake Plagge, Chloe(Cass) Motz
-
-## Scrum Board :
-| Sprint | Goals | Working | Completed |
-| --- | --- | --- | --- |
-| Sprint #1 | --- | --- | Set up repository|
-|| --- | --- | Struggle |
-| Sprint #2 | Looper Method |||
-|| JSON Files |||
-|| Player & Character Methods |||
-|| Tutorial Setup |||
-| Sprint #3 | More Story |||
-|| Some Animation |||
-|| Create Settings |||
-|| Add Login Method |||
-
-## Meeting Schedule :
-- Wednesdays @ 6:00 PM via Microsoft Teams
-- Sundays @ Any Time via Microsoft Teams (As Needed)
-
-| Week | Topic | Elizabeth | Cass | Jake | Kelli |
-| --- | --- | --- | --- | --- | --- |
-| 1 (5/11/22) | Sprint 0 Start | --- | --- | --- | --- |
-| 2 (5/18/22) | Forming Groups/Design Doc | Attended | Attended | Attended | Attended |
-| 3 (5/25/22)| Sprint 1 Start | Attended | Attended | Attended | Attended |
-| 4 (6/1/22)| Story Building and Sudo Code | Attended | Attended | Attended | Attended |
-| 5 (6/8/22)| info | Attended | Attended | Attended | Attended |
-| 6 (6/15/22)| info | Excused | Attended | Excused | Attended |
-| 7 (6/22/22)| Sprint 2 Start | Absent | Attended | Attended | Attended |
-| 8 (6/29/22)| info | Attended | Attended | Attended | Attended |
-| 9 (7/6/22) | info | Attended | Attended | Attended | Attended |
-| 10 (7/13/22) | info | --- | --- | --- | --- |
-| 11 (7/20/22) | Sprint 3 Start | --- | --- | --- | --- |
-| 12 (7/27/22) | info | --- | --- | --- | --- |
-| 13 (8/3/22) | info | --- | --- | --- | --- |
-| 14 (8/10/22) | info | --- | --- | --- | --- |
-| 15 (8/17/22) | info | --- | --- | --- | --- |
 
 ## Introduction :
 You have just moved into the town of Animal Villa! Introductions can be hard, but your neighbors seem friendly. Choose how you interact with your fellow animal friends and make meaningful relationships! Beware of creating a bad reputation for yourself, and make sure to keep track of your finances. There are a lot of new faces to see, places to visit, and connections to be made!
@@ -116,9 +70,6 @@ You have just moved into the town of Animal Villa! Introductions can be hard, bu
    - When a player is having difficulties reading the prompt 
    - The player can easily access the text speed settings
 
-## Class Diagram
-![Class Diagram](https://github.com/portekn/Mobile-Device-Programming-Animal-Villa/blob/Design-Document-Draft/Images/Animal%20Villa%20Class%20Diagram%20Final.png)
-
 ## Class Diagram Descriptions:
 ### Interfaces:
    - **Home Screen:** The first screen the user sees. This is the title screen for the game.
@@ -145,10 +96,6 @@ You have just moved into the town of Animal Villa! Introductions can be hard, bu
    - **Location:** Object that holds information about a location.
    - **Transportation:** Object that holds information about different modes of transportation.
    - **Data:** Object that holds information on all prompts and where they are stored.
-
-## Story Board
-![Story Board Gameplay](https://github.com/portekn/Mobile-Device-Programming-Animal-Villa/blob/73444f57bbc2ccc11019ab19554065e46bbda7d6/Images/storyboard%20idea.PNG)
-![Story Board Title](https://github.com/portekn/Mobile-Device-Programming-Animal-Villa/blob/73444f57bbc2ccc11019ab19554065e46bbda7d6/Images/storyboard%20title.PNG)
 
 ## Endings
 
