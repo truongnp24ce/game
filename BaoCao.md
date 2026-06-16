@@ -1,132 +1,132 @@
-# Báo cáo Dự án Lập trình Thiết bị Di động (Android – Kotlin)
+# Mobile Programming Project Report (Android – Kotlin)
 
 **Project Title:** Animal Villa
 **Repository:** [truongnp24ce/game](https://github.com/truongnp24ce/game)
-**Module chính:** `Mobile-Device-Programming-Animal-Villa`
-**Ngôn ngữ:** Kotlin (100%)
-**Ngày:** 2026-06-16
+**Main Module:** `Mobile-Device-Programming-Animal-Villa`
+**Language:** Kotlin (100%)
+**Date:** 2026-06-16
 
 ---
 
-## 1. Giới thiệu
+## 1. Introduction
 
-### 1.1 Bối cảnh (Background)
+### 1.1 Background
 
-**Animal Villa** là một ứng dụng game di động dạng *visual-novel / life-simulation* trên nền tảng Android, được phát triển bằng Kotlin và Jetpack Compose. Người chơi vào vai một cư dân mới chuyển đến thị trấn Animal Villa, tương tác với các nhân vật động vật xung quanh qua một tuần (Thứ Hai → Chủ Nhật) và đưa ra các lựa chọn để dẫn đến một trong bốn kết thúc khác nhau. Ứng dụng tích hợp với **Firebase** (Authentication + Firestore + Storage) để quản lý tài khoản người dùng và lưu trữ tiến trình chơi trên đám mây.
+**Animal Villa** is a mobile *visual-novel / life-simulation* game on the Android platform, developed with Kotlin and Jetpack Compose. The player takes the role of a new resident who has just moved into the town of Animal Villa, interacts with the surrounding animal characters across a week (Monday → Sunday), and makes choices that lead to one of four different endings. The application integrates with **Firebase** (Authentication + Firestore + Storage) to manage user accounts and store gameplay progress in the cloud.
 
-### 1.2 Mục tiêu (Objectives)
+### 1.2 Objectives
 
-- Xây dựng một ứng dụng Android đơn module sử dụng **Kotlin + Jetpack Compose**.
-- Cung cấp cơ chế **đăng ký / đăng nhập** tài khoản người chơi qua Firebase Authentication.
-- Hỗ trợ **lưu/tải tiến trình** chơi tự động lên Firestore và lưu trữ cục bộ bằng Room.
-- Triển khai **gameplay theo lựa chọn (swipe / tap left-right)** với hệ thống chỉ số (Energy ❤️, Status 🔥, Money 💲) ảnh hưởng đến cốt truyện.
-- Cung cấp **nhiều kết thúc (4 endings)** dựa trên chỉ số cuối cùng của người chơi.
+- Build a single-module Android application using **Kotlin + Jetpack Compose**.
+- Provide **registration / login** for player accounts via Firebase Authentication.
+- Support **save/load progress** automatically to Firestore and locally with Room.
+- Implement **choice-based gameplay (swipe / tap left-right)** with a stat system (Energy ❤️, Status 🔥, Money 💲) that drives the storyline.
+- Provide **multiple endings (4 endings)** based on the player's final stats.
 
-### 1.3 Phạm vi (Scope)
+### 1.3 Scope
 
-- Ứng dụng chạy trên thiết bị Android (**minSdk 32, targetSdk 34, compileSdk 34**).
-- Hướng đến chế độ portrait, một người chơi (single-player), chơi offline-first và sync khi có mạng.
-- Phạm vi gồm các thành phần: `app` (Activity, ViewModel), `DAO`, `DTO`, `JSON` (kịch bản truyện), `Service`, `UI` (Compose screens).
-- Phụ thuộc backend: **Firebase Firestore + Firebase Storage + Firebase Authentication** (cấu hình qua `google-services.json`).
+- The application runs on Android devices (**minSdk 32, targetSdk 34, compileSdk 34**).
+- Targeted at portrait mode, single-player, offline-first gameplay with sync when online.
+- Scope covers the following components: `app` (Activity, ViewModel), `DAO`, `DTO`, `JSON` (story scripts), `Service`, `UI` (Compose screens).
+- Backend dependencies: **Firebase Firestore + Firebase Storage + Firebase Authentication** (configured via `google-services.json`).
 
 ---
 
-## 2. Yêu cầu Hệ thống
+## 2. System Requirements
 
-### 2.1 Yêu cầu Chức năng (Functional Requirements)
+### 2.1 Functional Requirements
 
 | ID  | Function                  | Description                                                                                          |
 | --- | ------------------------- | ---------------------------------------------------------------------------------------------------- |
-| F1  | User Registration         | Người dùng tạo tài khoản qua màn `RegistrationActivity` (Firebase Auth + lưu profile lên Firestore). |
-| F2  | Login                     | Người dùng đăng nhập tại `LoginActivity` để mở khóa lưu tiến trình đám mây.                          |
-| F3  | Title Screen / Start Game | Màn `TitleScreenActivity` cho phép bắt đầu game mới hoặc tiếp tục từ save gần nhất.                  |
-| F4  | Gameplay & Choices        | `GamePlayModel` hiển thị prompt + 2 lựa chọn (left/right), cập nhật chỉ số Energy/Status/Money.      |
-| F5  | Save & Load Progress      | `GameSave` + `MainViewModel` lưu / khôi phục tiến trình qua Room (local) và Firestore (cloud).       |
-| F6  | Multiple Endings          | Cuối tuần (Sunday) trigger 1 trong 4 ending dựa trên chỉ số cuối: Bad / Exhausted / Penniless / Good. |
+| F1  | User Registration         | Users create an account via `RegistrationActivity` (Firebase Auth + profile stored in Firestore).    |
+| F2  | Login                     | Users sign in at `LoginActivity` to unlock cloud progress saving.                                    |
+| F3  | Title Screen / Start Game | `TitleScreenActivity` lets the player start a new game or continue from the latest save.             |
+| F4  | Gameplay & Choices        | `GamePlayModel` displays a prompt + 2 choices (left/right) and updates Energy/Status/Money stats.    |
+| F5  | Save & Load Progress      | `GameSave` + `MainViewModel` persist and restore progress via Room (local) and Firestore (cloud).    |
+| F6  | Multiple Endings          | The end of the week (Sunday) triggers 1 of 4 endings based on the final stats: Bad / Exhausted / Penniless / Good. |
 
-> **Chi tiết các lựa chọn dẫn tới từng ending** được mô tả đầy đủ trong [README.md của module](https://github.com/truongnp24ce/game/blob/main/Mobile-Device-Programming-Animal-Villa/README.md#endings).
+> **Detailed choices that trigger each ending** are fully documented in the [module README.md](https://github.com/truongnp24ce/game/blob/main/Mobile-Device-Programming-Animal-Villa/README.md#endings).
 
-### 2.2 Yêu cầu Phi chức năng (Non-Functional Requirements)
+### 2.2 Non-Functional Requirements
 
 | ID   | Requirement       | Description                                                                                                                              |
 | ---- | ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| NF1  | Performance       | UI Compose phản hồi mượt khi chuyển prompt; chỉ số stat cập nhật realtime trên màn hình.                                                |
-| NF2  | Security          | Xác thực qua Firebase Authentication; mật khẩu được Firebase hash & lưu an toàn.                                                         |
-| NF3  | Usability         | Giao diện đơn giản, 2 nút lựa chọn (trái/phải), portrait, dễ thao tác bằng một tay.                                                      |
-| NF4  | Compatibility     | Hỗ trợ Android 12L+ (minSdk 32, targetSdk 34). JVM target 11.                                                                            |
-| NF5  | Maintainability   | Mã nguồn chia tầng (DAO / DTO / Service / UI / ViewModel) theo hướng MVVM + Koin DI.                                                     |
-| NF6  | Storyboard Driven | Kịch bản truyện được tách riêng ra các file JSON trong `app/src/main/java/app/JSON`, dễ chỉnh sửa nội dung mà không cần build lại logic. |
+| NF1  | Performance       | Compose UI responds smoothly when switching prompts; stat indicators update in real time on screen.                                      |
+| NF2  | Security          | Authentication via Firebase Authentication; passwords are hashed and stored securely by Firebase.                                        |
+| NF3  | Usability         | Simple interface, two choice buttons (left/right), portrait orientation, easy one-hand operation.                                        |
+| NF4  | Compatibility     | Supports Android 12L+ (minSdk 32, targetSdk 34). JVM target 11.                                                                          |
+| NF5  | Maintainability   | Source code is layered (DAO / DTO / Service / UI / ViewModel) following MVVM + Koin DI.                                                  |
+| NF6  | Storyboard Driven | Story scripts are extracted into JSON files in `app/src/main/java/app/JSON`, making content easy to edit without rebuilding the logic.   |
 
 ---
 
-## 3. Thiết kế Hệ thống (System Design)
+## 3. System Design
 
-### 3.1 Kiến trúc Hệ thống (System Architecture)
+### 3.1 System Architecture
 
-Animal Villa được tổ chức theo mô hình **MVVM (Model–View–ViewModel)** trên một module duy nhất (`:app`), với phụ thuộc được quản lý qua **Koin (Dependency Injection)**.
+Animal Villa is organized using the **MVVM (Model–View–ViewModel)** pattern in a single module (`:app`), with dependencies managed through **Koin (Dependency Injection)**.
 
-**Các tầng chính:**
+**Main layers:**
 
-- **UI Layer** (`app/src/main/java/app/UI` + các `*Activity.kt`): màn hình viết bằng **Jetpack Compose**, sử dụng `androidx.navigation:navigation-compose` cho điều hướng và `constraintlayout-compose` cho layout phức tạp.
-- **ViewModel Layer** (`MainViewModel.kt`, `GamePlayModel.kt`): giữ state của game (chỉ số người chơi, prompt hiện tại) và xử lý logic phản hồi lựa chọn.
-- **Domain / Logic** (`AppMethods.kt`, `GetInformation.kt`, `GameSave.kt`): các hàm nghiệp vụ — đọc dữ liệu prompt, áp dụng thay đổi stat, quyết định ending.
+- **UI Layer** (`app/src/main/java/app/UI` + the `*Activity.kt` files): screens written in **Jetpack Compose**, using `androidx.navigation:navigation-compose` for navigation and `constraintlayout-compose` for complex layouts.
+- **ViewModel Layer** (`MainViewModel.kt`, `GamePlayModel.kt`): holds game state (player stats, current prompt) and processes choice-response logic.
+- **Domain / Logic** (`AppMethods.kt`, `GetInformation.kt`, `GameSave.kt`): business functions — reads prompt data, applies stat changes, decides the ending.
 - **Data Layer**:
-  - `DAO/` — Room DAO cho persistence cục bộ.
-  - `DTO/` — Data Transfer Objects (Prompt, Player, Character...).
-  - `JSON/` — Tài nguyên nội dung (kịch bản các ngày trong tuần).
+  - `DAO/` — Room DAOs for local persistence.
+  - `DTO/` — Data Transfer Objects (Prompt, Player, Character, etc.).
+  - `JSON/` — Content resources (daily story scripts).
   - `Service/` — Network / Firebase wrappers (Retrofit, Firestore, Storage).
-- **DI** (`AppModule.kt`, `AnimalVillaApplication.kt`): khởi tạo Koin module cho toàn ứng dụng.
+- **DI** (`AppModule.kt`, `AnimalVillaApplication.kt`): initializes the Koin module for the whole application.
 
 **Runtime flow:**
 `Compose UI → ViewModel (GamePlayModel) → Logic (AppMethods/GameSave) → DAO/Service → Room (local) + Firebase Firestore/Storage (cloud)`
 
-### 3.2 Thiết kế Giao diện (UI Design)
+### 3.2 UI Design
 
 | Screen              | Description                                                                                   |
 | ------------------- | --------------------------------------------------------------------------------------------- |
-| Login Screen        | Đăng nhập bằng email/mật khẩu qua Firebase Auth (`LoginActivity`).                            |
-| Registration Screen | Đăng ký tài khoản mới (`RegistrationActivity`).                                               |
-| Title Screen        | Màn hình tiêu đề, vào game mới hoặc tải save (`TitleScreenActivity`).                         |
-| Main / Home Screen  | Entry point sau khi launcher mở (`MainActivity` — khai báo `LAUNCHER` trong AndroidManifest). |
-| Gameplay Screen     | Hiển thị prompt + 2 lựa chọn + 3 chỉ số (Energy ❤️, Status 🔥, Money 💲) (`GamePlayModel`).      |
-| Ending Screen       | Hiển thị 1 trong 4 ending; nút *Back to Start* quay lại Title.                                |
+| Login Screen        | Email/password login via Firebase Auth (`LoginActivity`).                                     |
+| Registration Screen | Create a new account (`RegistrationActivity`).                                                |
+| Title Screen        | Title screen to start a new game or load a save (`TitleScreenActivity`).                      |
+| Main / Home Screen  | Entry point opened by the launcher (`MainActivity` — declared as `LAUNCHER` in AndroidManifest). |
+| Gameplay Screen     | Displays a prompt + 2 choices + 3 stat indicators (Energy ❤️, Status 🔥, Money 💲) (`GamePlayModel`). |
+| Ending Screen       | Displays one of the 4 endings; *Back to Start* button returns to the Title screen.            |
 
-**Ghi chú UI/UX:**
+**UI/UX notes:**
 
-- Mọi Activity đều khóa hướng `screenOrientation="portrait"`.
-- Chỉ `MainActivity` được export làm LAUNCHER, các Activity khác `exported="false"` để bảo mật.
+- All Activities lock orientation with `screenOrientation="portrait"`.
+- Only `MainActivity` is exported as LAUNCHER; the other Activities are `exported="false"` for security.
 
-### 3.3 Thiết kế Dữ liệu (Database Design)
+### 3.3 Database Design
 
-Dữ liệu được lưu ở **2 lớp**:
+Data is stored in **two layers**:
 
-- **Cục bộ (Local):** Room (`androidx.room:room-ktx:2.4.2`) — lưu save game gần nhất, cho phép chơi offline.
-- **Đám mây (Cloud):** Firebase **Firestore** lưu profile + save game; Firebase **Storage** dùng cho asset (ảnh nhân vật, lưu file lớn nếu cần).
+- **Local:** Room (`androidx.room:room-ktx:2.4.2`) — stores the latest game save, enabling offline play.
+- **Cloud:** Firebase **Firestore** stores profiles + game saves; Firebase **Storage** is used for assets (character images, large files if needed).
 
-**Các thực thể chính (DTO):**
+**Main entities (DTO):**
 
 | Entity        | Key Fields                                                  | Description                                               |
 | ------------- | ----------------------------------------------------------- | --------------------------------------------------------- |
-| Player        | `userId`, `displayName`, `energy`, `status`, `money`        | Trạng thái người chơi hiện tại.                           |
-| GameSave      | `userId`, `day`, `promptIndex`, `stats`                     | Snapshot tiến trình để khôi phục.                         |
-| Prompt (JSON) | `id`, `day`, `text`, `leftChoice`, `rightChoice`, `effects` | Một bước truyện + ảnh hưởng đến chỉ số.                   |
-| Character     | `id`, `name`, `metAt`                                       | Thông tin nhân vật người chơi đã gặp.                     |
-| Ending        | `type`, `priority`, `condition`                             | Định nghĩa 4 endings: Bad / Exhausted / Penniless / Good. |
+| Player        | `userId`, `displayName`, `energy`, `status`, `money`        | The player's current state.                               |
+| GameSave      | `userId`, `day`, `promptIndex`, `stats`                     | Progress snapshot used for restoration.                   |
+| Prompt (JSON) | `id`, `day`, `text`, `leftChoice`, `rightChoice`, `effects` | One story step + its impact on the stats.                 |
+| Character     | `id`, `name`, `metAt`                                       | Information about characters the player has met.          |
+| Ending        | `type`, `priority`, `condition`                             | Defines the 4 endings: Bad / Exhausted / Penniless / Good. |
 
-**Logic chọn Ending (theo README):**
+**Ending selection logic (per the README):**
 
-| Priority | Ending       | Trigger (final stat)                       |
-| -------- | ------------ | ------------------------------------------ |
-| 1        | Bad ❤️‍🔥       | `Status < 30`                              |
-| 2        | Exhausted ❤️  | `Status ≥ 30` và `Energy < 30`             |
-| 3        | Penniless 💲  | `Status ≥ 30`, `Energy ≥ 30`, `Money < 40` |
-| 4        | Good ✨       | Cả 3 chỉ số vượt ngưỡng                    |
+| Priority | Ending       | Trigger (final stat)                          |
+| -------- | ------------ | --------------------------------------------- |
+| 1        | Bad ❤️‍🔥       | `Status < 30`                                 |
+| 2        | Exhausted ❤️  | `Status ≥ 30` and `Energy < 30`               |
+| 3        | Penniless 💲  | `Status ≥ 30`, `Energy ≥ 30`, `Money < 40`    |
+| 4        | Good ✨       | All three stats above their thresholds        |
 
 ---
 
-## 4. Phát triển Hệ thống (System Development)
+## 4. System Development
 
-### 4.1 Công nghệ sử dụng (Technologies Used)
+### 4.1 Technologies Used
 
 | Component            | Technology                                                                                                                      |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
@@ -146,64 +146,64 @@ Dữ liệu được lưu ở **2 lớp**:
 | Testing              | JUnit 4.13.2, MockK 1.12.4, kotlinx-coroutines-test 1.6.3, Espresso 3.4.0, Compose UI Test                                      |
 | Version Control      | Git / GitHub                                                                                                                    |
 
-### 4.2 Các API & Service chính
+### 4.2 Main APIs & Services
 
-| API / Service               | Mục đích                                                |
+| API / Service               | Purpose                                                 |
 | --------------------------- | ------------------------------------------------------- |
-| Firebase Authentication     | Đăng ký / đăng nhập người chơi.                         |
-| Firebase Firestore          | Lưu profile và save game trên cloud.                    |
-| Firebase Storage            | Lưu trữ asset (ảnh nhân vật, file lớn).                 |
-| Room DAO (local)            | Lưu cache save game để chơi offline.                    |
-| Retrofit + OkHttp (network) | Sẵn sàng cho gọi REST API mở rộng (nếu có).             |
+| Firebase Authentication     | Player registration / login.                            |
+| Firebase Firestore          | Stores profiles and game saves in the cloud.            |
+| Firebase Storage            | Stores assets (character images, large files).          |
+| Room DAO (local)            | Caches game saves for offline play.                     |
+| Retrofit + OkHttp (network) | Ready for additional REST API calls if needed.          |
 
-### 4.3 Thư viện chính (Libraries)
+### 4.3 Main Libraries
 
 | Library                                            | Purpose                              |
 | -------------------------------------------------- | ------------------------------------ |
-| Jetpack Compose + Material                         | UI declarative                       |
-| Navigation Compose                                 | Điều hướng giữa các màn              |
+| Jetpack Compose + Material                         | Declarative UI                       |
+| Navigation Compose                                 | Navigation between screens           |
 | Koin                                               | Dependency Injection                 |
 | Retrofit + OkHttp + Gson Converter                 | HTTP client + serialization          |
-| Room                                               | Lưu trữ cục bộ                       |
+| Room                                               | Local persistence                    |
 | Firebase BoM (Auth, Firestore, Storage, Analytics) | Backend-as-a-Service                 |
-| WorkManager                                        | Đồng bộ nền (sync save khi có mạng)  |
-| ConstraintLayout (Compose)                         | Layout phức tạp                      |
-| SDP-Android                                        | Đơn vị kích thước responsive         |
-| JUnit / MockK / Espresso                           | Unit test & UI test                  |
+| WorkManager                                        | Background sync (e.g., save sync when online) |
+| ConstraintLayout (Compose)                         | Complex layouts                      |
+| SDP-Android                                        | Responsive sizing units              |
+| JUnit / MockK / Espresso                           | Unit testing & UI testing            |
 
 ---
 
-## 5. Triển khai (Deployment)
+## 5. Deployment
 
-### 5.1 Mã nguồn (Source Code)
+### 5.1 Source Code
 
 - Repository: **[truongnp24ce/game](https://github.com/truongnp24ce/game)** (branch `main`)
-- Module Android: [`Mobile-Device-Programming-Animal-Villa/`](https://github.com/truongnp24ce/game/tree/main/Mobile-Device-Programming-Animal-Villa)
-- File entry: [`AndroidManifest.xml`](https://github.com/truongnp24ce/game/blob/main/Mobile-Device-Programming-Animal-Villa/app/src/main/AndroidManifest.xml) → LAUNCHER là `app.MainActivity`.
+- Android module: [`Mobile-Device-Programming-Animal-Villa/`](https://github.com/truongnp24ce/game/tree/main/Mobile-Device-Programming-Animal-Villa)
+- Entry file: [`AndroidManifest.xml`](https://github.com/truongnp24ce/game/blob/main/Mobile-Device-Programming-Animal-Villa/app/src/main/AndroidManifest.xml) → the LAUNCHER is `app.MainActivity`.
 
-### 5.2 Build & chạy thử
+### 5.2 Build & Run
 
-1. Clone repository:
+1. Clone the repository:
 
    ```bash
    git clone https://github.com/truongnp24ce/game.git
    ```
 
-2. Mở thư mục `Mobile-Device-Programming-Animal-Villa` bằng Android Studio (Giraffe trở lên, AGP 8.1.4).
-3. Đảm bảo có file `app/google-services.json` (đã có sẵn trong repo cho cấu hình Firebase mặc định) — **khuyến nghị thay bằng cấu hình Firebase của riêng bạn cho môi trường production**.
-4. Đồng bộ Gradle, sau đó **Run** trên emulator hoặc thiết bị Android ≥ 12L (API 32).
+2. Open the `Mobile-Device-Programming-Animal-Villa` directory with Android Studio (Giraffe or newer, AGP 8.1.4).
+3. Make sure the `app/google-services.json` file is present (already included in the repo with the default Firebase configuration) — **it is recommended to replace it with your own Firebase configuration for a production environment**.
+4. Sync Gradle, then **Run** on an emulator or an Android device running ≥ 12L (API 32).
 
-### 5.3 Hướng dẫn cài đặt (Installation Guide)
+### 5.3 Installation Guide
 
-1. Build APK debug:
+1. Build a debug APK:
 
    ```bash
    cd Mobile-Device-Programming-Animal-Villa
    ./gradlew assembleDebug
    ```
 
-2. APK xuất tại: `app/build/outputs/apk/debug/app-debug.apk`.
-3. Trên điện thoại: bật *Install from unknown sources* và mở APK, hoặc dùng:
+2. The APK is generated at: `app/build/outputs/apk/debug/app-debug.apk`.
+3. On the phone: enable *Install from unknown sources* and open the APK, or use:
 
    ```bash
    adb install -r app/build/outputs/apk/debug/app-debug.apk
@@ -211,31 +211,31 @@ Dữ liệu được lưu ở **2 lớp**:
 
 ---
 
-## 6. Kết luận (Conclusion)
+## 6. Conclusion
 
-### 6.1 Thành tựu (Achievements)
+### 6.1 Achievements
 
-- Hoàn thành một **game visual-novel hoàn chỉnh** trên Android với 4 endings và hệ thống chỉ số 3 chiều (Energy / Status / Money).
-- Áp dụng đầy đủ **stack hiện đại**: Kotlin + Jetpack Compose + MVVM + Koin DI + Room + Firebase.
-- Tách kịch bản truyện ra file **JSON** ngoài code, hỗ trợ chỉnh sửa nội dung linh hoạt.
-- Tích hợp **Firebase Authentication + Firestore** cho đăng nhập và lưu tiến trình đám mây.
+- Delivered a **complete visual-novel game** on Android with 4 endings and a three-dimensional stat system (Energy / Status / Money).
+- Adopted a fully **modern stack**: Kotlin + Jetpack Compose + MVVM + Koin DI + Room + Firebase.
+- Externalized the story script into **JSON** files outside of the code, enabling flexible content editing.
+- Integrated **Firebase Authentication + Firestore** for login and cloud progress saving.
 
-### 6.2 Hạn chế (Limitations)
+### 6.2 Limitations
 
-- File `google-services.json` được commit thẳng vào repo — nên thay bằng biến môi trường hoặc loại khỏi VCS ở production.
-- Một số thư viện đang dùng phiên bản cũ (Retrofit 2.9.0, OkHttp 5.0.0-alpha, Room 2.4.2) — nên cân nhắc nâng cấp.
-- Chưa có CI/CD pipeline (chỉ có thư mục `.github/` rỗng) và chưa có release build ký số (release dùng `minifyEnabled false`).
-- Mô tả repository hiện tại (`jskdhfsjhdbdksbsdjk`) cần được cập nhật thành mô tả có ý nghĩa.
+- `google-services.json` is committed directly into the repository — it should be replaced with environment variables or removed from VCS for production.
+- Several libraries use older versions (Retrofit 2.9.0, OkHttp 5.0.0-alpha, Room 2.4.2) — upgrading should be considered.
+- There is no CI/CD pipeline yet (the `.github/` directory is empty) and no signed release build (release uses `minifyEnabled false`).
+- The current repository description (`jskdhfsjhdbdksbsdjk`) should be updated to a meaningful description.
 
-### 6.3 Hướng phát triển (Future Work)
+### 6.3 Future Work
 
-- Thêm **CI/CD** với GitHub Actions (build + test + lint + assembleRelease ký số).
-- Bật **R8/ProGuard** ở release build (`minifyEnabled true`) để giảm dung lượng APK.
-- Bổ sung **unit test cho `GamePlayModel`** (logic chọn ending) và **UI test cho Compose screens**.
-- Bổ sung **chế độ chơi offline hoàn toàn** với đồng bộ Firestore qua WorkManager.
-- Thêm **đa ngôn ngữ (i18n)** và **chế độ tối (dark theme)** cho Compose.
-- Quản lý bí mật Firebase qua `local.properties` hoặc GitHub Secrets thay vì commit `google-services.json`.
+- Add **CI/CD** with GitHub Actions (build + test + lint + signed assembleRelease).
+- Enable **R8/ProGuard** in the release build (`minifyEnabled true`) to reduce APK size.
+- Add **unit tests for `GamePlayModel`** (ending selection logic) and **UI tests for Compose screens**.
+- Add **fully offline play mode** with Firestore sync via WorkManager.
+- Add **internationalization (i18n)** and **dark theme** support for Compose.
+- Manage Firebase secrets via `local.properties` or GitHub Secrets instead of committing `google-services.json`.
 
 ---
 
-> 📌 **Ghi chú:** Báo cáo này được sinh tự động dựa trên cấu trúc mẫu báo cáo SmartHomeApp và nội dung thực tế của repository [truongnp24ce/game](https://github.com/truongnp24ce/game).
+> 📌 **Note:** This report was generated automatically based on the SmartHomeApp report template and the actual contents of the [truongnp24ce/game](https://github.com/truongnp24ce/game) repository.
